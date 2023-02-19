@@ -10,6 +10,10 @@ namespace Corbae.Configure
         {
             builder.ToTable("Carts");
 
+            builder.HasKey(c => c.CartID);
+            builder.HasIndex(c => c.CartID).IsUnique();
+
+
             builder
                    .HasMany(s => s.Products)
                    .WithMany(s => s.Carts)
@@ -24,7 +28,8 @@ namespace Corbae.Configure
                     .HasForeignKey(cp => cp.CartID),
                 cp =>
                 {
-                    cp.HasKey("CartProductId");
+                    cp.HasKey(cp=>cp.CartProductID);
+                    cp.HasIndex(cp => cp.CartProductID).IsUnique();
                     cp.ToTable("CartProducts");
                 });
 

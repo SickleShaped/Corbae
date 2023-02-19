@@ -3,6 +3,7 @@ using System;
 using Corbae;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Corbae.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230219155646_OnlyUsers")]
+    partial class OnlyUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,13 +27,10 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.Cart", b =>
                 {
-                    b.Property<string>("CartID")
+                    b.Property<string>("CartId")
                         .HasColumnType("text");
 
-                    b.HasKey("CartID");
-
-                    b.HasIndex("CartID")
-                        .IsUnique();
+                    b.HasKey("CartId");
 
                     b.ToTable("Carts", (string)null);
                 });
@@ -52,9 +52,6 @@ namespace Corbae.Migrations
 
                     b.HasIndex("CartID");
 
-                    b.HasIndex("CartProductID")
-                        .IsUnique();
-
                     b.HasIndex("ProductID");
 
                     b.ToTable("CartProducts", (string)null);
@@ -66,16 +63,10 @@ namespace Corbae.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 2, 19, 19, 29, 23, 455, DateTimeKind.Utc).AddTicks(10));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DeliveryPlace")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -85,9 +76,6 @@ namespace Corbae.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("OrderID");
-
-                    b.HasIndex("OrderID")
-                        .IsUnique();
 
                     b.HasIndex("UserID");
 
@@ -107,17 +95,14 @@ namespace Corbae.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.HasKey("OrderProductID");
 
-                    b.HasIndex("OrderProductID")
-                        .IsUnique();
-
                     b.HasIndex("ProductID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderProducts", (string)null);
                 });
@@ -133,13 +118,11 @@ namespace Corbae.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(2047)
-                        .HasColumnType("character varying(2047)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -153,9 +136,6 @@ namespace Corbae.Migrations
 
                     b.HasKey("ProductID");
 
-                    b.HasIndex("ProductID")
-                        .IsUnique();
-
                     b.HasIndex("UserID");
 
                     b.ToTable("Products", (string)null);
@@ -163,46 +143,38 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.User", b =>
                 {
-                    b.Property<string>("UserID")
+                    b.Property<string>("UserId")
                         .HasColumnType("text");
 
                     b.Property<string>("Adress")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Company")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 2, 19, 19, 29, 23, 453, DateTimeKind.Utc).AddTicks(6514));
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsAdmin")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsCustomer")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsSeller")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("Money")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -214,10 +186,7 @@ namespace Corbae.Migrations
                     b.Property<decimal>("Rating")
                         .HasColumnType("numeric(20,0)");
 
-                    b.HasKey("UserID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
+                    b.HasKey("UserId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -226,7 +195,7 @@ namespace Corbae.Migrations
                 {
                     b.HasOne("Corbae.Models.User", "User")
                         .WithOne("Cart")
-                        .HasForeignKey("Corbae.Models.Cart", "CartID")
+                        .HasForeignKey("Corbae.Models.Cart", "CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -279,7 +248,7 @@ namespace Corbae.Migrations
 
                     b.HasOne("Corbae.Models.User", null)
                         .WithMany("OrderProducts")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Order");
 

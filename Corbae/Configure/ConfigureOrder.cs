@@ -9,6 +9,12 @@ namespace Corbae.Configure
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.ToTable("Orders");
+
+            builder.HasKey(o => o.OrderID);
+            builder.HasIndex(o => o.OrderID).IsUnique();
+
+            builder.Property(o => o.CreationDate).HasDefaultValue(DateTime.UtcNow);
+
             builder
                    .HasOne(p => p.User)
                    .WithMany(u => u.Orders)
@@ -28,7 +34,8 @@ namespace Corbae.Configure
                     .HasForeignKey(op => op.ProductID),
                 op =>
                 {
-                    op.HasKey("OrderProductId");
+                    op.HasKey(op=>op.OrderProductID);
+                    op.HasIndex(op => op.OrderProductID).IsUnique();
                     op.ToTable("OrderProducts");
                 }) ;
         }

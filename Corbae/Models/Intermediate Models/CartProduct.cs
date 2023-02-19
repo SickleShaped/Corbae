@@ -6,9 +6,9 @@ namespace Corbae.Models
     public class CartProduct
     {
         //[Key]
-        public string CartProductID { get; set; }
-        public string ProductID { get; set; }
-        public string CartID { get; set; }
+        public string CartProductID { get; set; } = null!;
+        public string ProductID { get; set; } = null!;
+        public string CartID { get; set; } = null!;
 
         [JsonIgnore]
         public Product? Product { get; set; }

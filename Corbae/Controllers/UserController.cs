@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Corbae.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
 {
     public class UserController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Create(User user)
         {
-            return View();
+
         }
     }
 }

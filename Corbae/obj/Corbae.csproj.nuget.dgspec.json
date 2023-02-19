@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Diplom\\ikbn\\Corbae\\Corbae.csproj": {}
+    "E:\\Diplom\\Corbae\\Corbae\\Corbae\\Corbae.csproj": {}
   },
   "projects": {
-    "E:\\Diplom\\ikbn\\Corbae\\Corbae.csproj": {
+    "E:\\Diplom\\Corbae\\Corbae\\Corbae\\Corbae.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Diplom\\ikbn\\Corbae\\Corbae.csproj",
+        "projectUniqueName": "E:\\Diplom\\Corbae\\Corbae\\Corbae\\Corbae.csproj",
         "projectName": "Corbae",
-        "projectPath": "E:\\Diplom\\ikbn\\Corbae\\Corbae.csproj",
+        "projectPath": "E:\\Diplom\\Corbae\\Corbae\\Corbae\\Corbae.csproj",
         "packagesPath": "C:\\Users\\Sickle-shaped\\.nuget\\packages\\",
-        "outputPath": "E:\\Diplom\\ikbn\\Corbae\\obj\\",
+        "outputPath": "E:\\Diplom\\Corbae\\Corbae\\Corbae\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\VStudioSDK\\NuGetPackages"

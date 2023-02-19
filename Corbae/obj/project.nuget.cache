@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "d+bOYLQ2KpFJSY7xDo2tDHEKy07tq5i4bmmqS0r0blDpBXsLuTdHzHXuZzIGveRKzMrsLjtCOQuGVy1v+L0Cqw==",
+  "dgSpecHash": "sToYbLNz1s17HjMLUOJwANj/3qBV3eFpdSDlXswfD81rLd9hphGmydvipuPEScGproRe5Yo8Q/Sy6OO50HEkXg==",
   "success": true,
-  "projectFilePath": "E:\\Diplom\\ikbn\\Corbae\\Corbae.csproj",
+  "projectFilePath": "E:\\Diplom\\Corbae\\Corbae\\Corbae\\Corbae.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Sickle-shaped\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Sickle-shaped\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
