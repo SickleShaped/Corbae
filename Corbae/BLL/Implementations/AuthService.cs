@@ -2,11 +2,11 @@
 
 namespace Corbae.BLL.Implementations
 {
-    public class OrderService:IOrderService
+    public class AuthService:IAuthService
     {
         private readonly ApiDbContext _dbContext;
 
-        public OrderService(ApiDbContext dbContext)
+        public AuthService(ApiDbContext dbContext)
         {
             _dbContext = dbContext;
         }

@@ -9,6 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connection = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(connection));
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
