@@ -13,6 +13,7 @@ namespace Corbae.Configure
             builder.HasKey(c => c.CartID);
             builder.HasIndex(c => c.CartID).IsUnique();
 
+
             builder
                    .HasMany(s => s.Products)
                    .WithMany(s => s.Carts)

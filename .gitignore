@@ -1,4 +1,10 @@
 .vs/
-.dockerignore
-Corbae/obj/
 Corbae/bin/
+Corbae/obj/
+Corbae/appsettings.Development.json
+Corbae/Corbae.csproj.user
+
+# Executables
+*.exe
+*.out
+*.app
