@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corbae", "Corbae\Corbae.csproj", "{E53FBFE2-3899-4379-AA8B-40FCD2901908}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E53FBFE2-3899-4379-AA8B-40FCD2901908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53FBFE2-3899-4379-AA8B-40FCD2901908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53FBFE2-3899-4379-AA8B-40FCD2901908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53FBFE2-3899-4379-AA8B-40FCD2901908}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F4AC5AE-A398-4F38-8234-B4731D5DCB83}
+	EndGlobalSection
+EndGlobal
