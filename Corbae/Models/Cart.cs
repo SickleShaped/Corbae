@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Corbae.Models
 {
@@ -17,7 +18,10 @@ namespace Corbae.Models
         /// <summary>
         /// Продукты, содержащиеся в корзине
         /// </summary>
+        [JsonIgnore]
         public List<Product> Products { get; set; } = new List<Product>();
+
+        [JsonIgnore]
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
         

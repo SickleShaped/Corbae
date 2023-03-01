@@ -38,6 +38,8 @@ namespace Corbae.Configure
                     op.HasIndex(op => op.OrderProductID).IsUnique();
                     op.ToTable("OrderProducts");
                 }) ;
+
+
         }
     }
 }

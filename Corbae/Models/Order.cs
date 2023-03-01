@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Corbae.Models
 {
@@ -33,6 +34,7 @@ namespace Corbae.Models
         /// <summary>
         /// Пользователь, совершивший заказ
         /// </summary>
+        [JsonIgnore]
         public User User { get; set; } = null!;
 
         /// <summary>
@@ -43,8 +45,10 @@ namespace Corbae.Models
         /// <summary>
         /// Продукты, содержащиеся в заказе
         /// </summary>
+        [JsonIgnore]
         public List<Product> Products { get; set; } = new List<Product>();
 
+        [JsonIgnore]
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
     }

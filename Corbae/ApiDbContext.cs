@@ -1,11 +1,14 @@
 ﻿using Corbae.Configure;
 using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Corbae
 {
     public class ApiDbContext : DbContext
     {
+        public ApiDbContext() => Database.EnsureCreated();
+
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; } = null!;
@@ -18,10 +21,12 @@ namespace Corbae
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new ConfigureUser());
+            /*builder.ApplyConfiguration(new ConfigureUser());
             builder.ApplyConfiguration(new ConfigureCart());
             builder.ApplyConfiguration(new ConfigureOrder());
-            builder.ApplyConfiguration(new ConfigureProduct());
+            builder.ApplyConfiguration(new ConfigureProduct());*/
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
