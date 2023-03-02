@@ -14,11 +14,13 @@ namespace Corbae.Configure
             builder.HasIndex(o => o.OrderID).IsUnique();
 
             builder.Property(o => o.CreationDate).HasDefaultValue(DateTime.UtcNow);
+            
 
             builder
                    .HasOne(p => p.User)
                    .WithMany(u => u.Orders)
-                   .HasForeignKey(p => p.UserID);
+                   .HasForeignKey(p => p.UserID)
+                   .OnDelete(DeleteBehavior.SetNull);
 
             builder
                    .HasMany(o => o.Products)

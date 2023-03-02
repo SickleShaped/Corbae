@@ -22,7 +22,8 @@ namespace Corbae.Configure
             builder
                    .HasOne(p => p.User)
                    .WithMany(u => u.Products)
-                   .HasForeignKey(p=>p.UserID);
+                   .HasForeignKey(p=>p.UserID)
+                   .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Corbae.BLL.Interfaces;
 using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
+using Corbae.Exceptions;
+using Corbae.Exceptions.UserExceptions;
 
 namespace Corbae.BLL.Implementations
 {
@@ -33,10 +35,14 @@ namespace Corbae.BLL.Implementations
             user.UserID = Guid.NewGuid().ToString();
 
             var emailuser = GetByEmail(user.Email);
-           // if(emailuser !=null)
-           // {
-            //    return 
-            //}
+
+            var hash = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
+            user.Password = hash;
+            
+            if(emailuser !=null)
+            {
+                throw new EmailAlreadyInUseException(user.Email);
+            }
 
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();

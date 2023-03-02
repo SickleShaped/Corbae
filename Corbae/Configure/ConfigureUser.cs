@@ -20,11 +20,12 @@ namespace Corbae.Configure
             builder.Property(u => u.Password).IsRequired();
             builder.Property(u => u.CreationDate).HasDefaultValue(DateTime.UtcNow);
             builder.Property(u => u.Company).HasMaxLength(128);
-
+            dd
             builder
                    .HasOne(u => u.Cart)
                    .WithOne(c => c.User)
-                   .HasForeignKey<Cart>(c => c.CartID);
+                   .HasForeignKey<Cart>(c => c.CartID)
+                   .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
