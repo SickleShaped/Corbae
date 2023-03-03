@@ -3,7 +3,7 @@ using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
-namespace Corbae
+namespace Corbae.DAL
 {
     public class ApiDbContext : DbContext
     {

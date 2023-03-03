@@ -3,6 +3,9 @@ using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using Corbae.Exceptions;
 using Corbae.Exceptions.UserExceptions;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.AspNetCore.Mvc;
+using Corbae.DAL;
 
 namespace Corbae.BLL.Implementations
 {
@@ -15,9 +18,9 @@ namespace Corbae.BLL.Implementations
             _dbContext = dbContext;
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAll()
         {
-            return _dbContext.Users.Include(u => u.Orders).ToList();
+            return await _dbContext.Users.Include(u => u.Orders).ToListAsync();
         }
 
         public async Task<User?> GetById(string id)
@@ -48,6 +51,17 @@ namespace Corbae.BLL.Implementations
             await _dbContext.SaveChangesAsync();
 
             return user.UserID;
+        }
+
+        public async void Delete(string id)
+        {
+            var idUser = await GetById(id);
+            if(idUser == null)
+            {
+                throw new NoUserWithThatIdException(id);
+            }
+            _dbContext.Users.Remove(idUser);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

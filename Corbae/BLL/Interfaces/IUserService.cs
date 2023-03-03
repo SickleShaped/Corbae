@@ -1,4 +1,5 @@
 ﻿using Corbae.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Corbae.BLL.Interfaces
         /// Получить всех пользователей
         /// </summary>
         /// <returns>Пользователи</returns>
-        List<User> GetAll();
+        Task<List<User>> GetAll();
 
         /// <summary>
         /// Получить пользователя по id
@@ -46,7 +47,7 @@ namespace Corbae.BLL.Interfaces
         /// Удалить пользователя
         /// </summary>
         /// <param name="id">id пользователя</param>
-        /// <returns>Пользователь</returns>
-        //Task<User?> Delete(string id);
+        /// <returns>OK</returns>
+        void Delete(string id);
     }
 }
