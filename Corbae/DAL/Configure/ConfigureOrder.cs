@@ -29,14 +29,16 @@ namespace Corbae.Configure
                 op => op
                     .HasOne(op => op.Product)
                     .WithMany(p => p.OrderProducts)
-                    .HasForeignKey(op => op.ProductID),
+                    .HasForeignKey(op => op.ProductID)
+                    .OnDelete(DeleteBehavior.SetNull),
                 op => op
                     .HasOne(op => op.Order)
                     .WithMany(o => o.OrderProducts)
-                    .HasForeignKey(op => op.ProductID),
+                    .HasForeignKey(op => op.ProductID)
+                    .OnDelete(DeleteBehavior.SetNull),
                 op =>
                 {
-                    op.HasKey(op=>op.OrderProductID);
+                    op.HasKey(op => op.OrderProductID);
                     op.HasIndex(op => op.OrderProductID).IsUnique();
                     op.ToTable("OrderProducts");
                 }) ;

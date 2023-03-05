@@ -20,12 +20,13 @@ namespace Corbae.Configure
                 cp => cp
                     .HasOne(cp => cp.Product)
                     .WithMany(p => p.CartProducts)
-                    .HasForeignKey(cp => cp.ProductID),
+                    .HasForeignKey(cp => cp.ProductID)
+                    .OnDelete(DeleteBehavior.SetNull),
                 cp => cp
                     .HasOne(cp => cp.Cart)
                     .WithMany(c => c.CartProducts)
                     .HasForeignKey(cp => cp.CartID)
-                    .OnDelete(DeleteBehavior.Cascade), 
+                    .OnDelete(DeleteBehavior.SetNull), 
                 cp =>
                 {
                     cp.HasKey(cp=>cp.CartProductID);

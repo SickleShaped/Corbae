@@ -47,7 +47,8 @@ namespace Corbae.BLL.Interfaces
         /// Удалить пользователя
         /// </summary>
         /// <param name="id">id пользователя</param>
-        /// <returns>OK</returns>
-        void Delete(string id);
+        /// <param name="password">Пароль пользователя</param>
+        /// <returns>true</returns>
+        Task<bool> Delete(string id, string password);
     }
 }

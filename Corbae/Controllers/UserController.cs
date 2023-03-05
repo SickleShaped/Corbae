@@ -30,6 +30,12 @@ namespace Corbae.Controllers
             return newUserId.ToString();
         }
 
+        [HttpDelete("DeleteUser")]
+        public async void DeleteUser(User user, string password)
+        {
+            await _serviceManager.UserService.Delete(user.UserID, password);
+        }
+
     }
 
 
