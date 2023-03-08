@@ -19,7 +19,7 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="id">id пользователя</param>
         /// <returns>пользователь</returns>
-        Task<User?> GetById(string id);
+        Task<User?> GetById(Guid id);
 
         /// <summary>
         /// Получить пользователя по email
@@ -32,8 +32,8 @@ namespace Corbae.BLL.Interfaces
         /// Создать пользователя
         /// </summary>
         /// <param name="user">ппользователь</param>
-        /// <returns>Пользователь</returns>
-        Task<string?> Create(User user);
+        /// <returns>Id Пользователь</returns>
+        Task<Guid> Create(User user);
 
         /// <summary>
         /// Изменить пользователя
@@ -49,6 +49,6 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id">id пользователя</param>
         /// <param name="password">Пароль пользователя</param>
         /// <returns>true</returns>
-        Task<bool> Delete(string id, string password);
+        Task<bool> Delete(Guid id, string password);
     }
 }

@@ -8,7 +8,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id пользователя
         /// </summary>
-        public string UserID { get; set; } = null!;
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Почта пользователя

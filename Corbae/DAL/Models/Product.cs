@@ -8,7 +8,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id птовара
         /// </summary>
-        public string ProductID { get; set; } = null!;
+        public Guid ProductID { get; set; }
 
         /// <summary>
         /// Название товара
@@ -38,13 +38,13 @@ namespace Corbae.Models
         /// <summary>
         /// Id пользователя, добавившего этот товар
         /// </summary>
-        public string UserID { get; set; } = null!;
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Пользователь, добавивший этот товар
         /// </summary>
         [JsonIgnore]
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
 
         /// <summary>
         /// Заказы, в которых есть этот товар

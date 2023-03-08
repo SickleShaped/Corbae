@@ -23,7 +23,7 @@ namespace Corbae.Configure
                    .HasOne(p => p.User)
                    .WithMany(u => u.Products)
                    .HasForeignKey(p=>p.UserID)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

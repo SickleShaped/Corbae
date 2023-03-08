@@ -21,10 +21,10 @@ namespace Corbae.BLL.Implementations
 
         public async Task<List<User>> GetAll()
         {
-            return await _dbContext.Users.Include(u => u.Orders).ToListAsync();
+            return await _dbContext.Users.Include(u => u.Orders).AsNoTracking().ToListAsync();
         }
 
-        public async Task<User?> GetById(string id)
+        public async Task<User?> GetById(Guid id)
         {
             return await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id);
         }
@@ -34,18 +34,17 @@ namespace Corbae.BLL.Implementations
             return await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<string?> Create(User user)
+        public async Task<Guid> Create(User user)
         {
-            user.UserID = Guid.NewGuid().ToString();
-
-            var emailuser = GetByEmail(user.Email);
-
+            user.UserID = Guid.NewGuid();
+            user.CreationDate = DateTime.UtcNow;
             var hash = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
             user.Password = hash;
-            
-            if(emailuser !=null)
+
+            var emailuser = await GetByEmail(user.Email);
+            if(emailuser != null)
             {
-                throw new EmailAlreadyInUseException(user.Email);
+               throw new EmailAlreadyInUseException(user.Email);
             }
 
             await _dbContext.Users.AddAsync(user);
@@ -54,7 +53,7 @@ namespace Corbae.BLL.Implementations
             return user.UserID;
         }
 
-        public async Task<bool> Delete(string id, string password)
+        public async Task<bool> Delete(Guid id, string password)
         {
             var idUser = await GetById(id);
             if(idUser == null)
@@ -69,6 +68,10 @@ namespace Corbae.BLL.Implementations
 
             _dbContext.Users.Remove(idUser);
             await _dbContext.SaveChangesAsync();
+
+            //
+            _dbContext.Users.Where(u => u.UserID == id).ExecuteDelete();
+            //
 
             return true;
         }

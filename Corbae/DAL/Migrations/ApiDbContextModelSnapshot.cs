@@ -24,8 +24,8 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.Cart", b =>
                 {
-                    b.Property<string>("CartID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("CartID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("CartID");
 
@@ -37,16 +37,15 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.CartProduct", b =>
                 {
-                    b.Property<string>("CartProductID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("CartProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("CartID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("CartID")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("ProductID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("CartProductID");
 
@@ -62,13 +61,14 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.Order", b =>
                 {
-                    b.Property<string>("OrderID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 3, 3, 20, 33, 52, 907, DateTimeKind.Utc).AddTicks(5005));
+                        .HasDefaultValue(new DateTime(2023, 3, 6, 20, 40, 5, 295, DateTimeKind.Utc).AddTicks(8336));
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("timestamp with time zone");
@@ -80,9 +80,8 @@ namespace Corbae.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("OrderID");
 
@@ -96,19 +95,18 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.OrderProduct", b =>
                 {
-                    b.Property<string>("OrderProductID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("OrderProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("OrderID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("OrderID")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("ProductID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("UserID")
-                        .HasColumnType("text");
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("OrderProductID");
 
@@ -124,8 +122,9 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.Product", b =>
                 {
-                    b.Property<string>("ProductID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("ProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Category")
                         .IsRequired()
@@ -147,9 +146,8 @@ namespace Corbae.Migrations
                     b.Property<long>("QuantityInStock")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("ProductID");
 
@@ -163,8 +161,9 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.User", b =>
                 {
-                    b.Property<string>("UserID")
-                        .HasColumnType("text");
+                    b.Property<Guid>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Adress")
                         .HasColumnType("text");
@@ -176,7 +175,7 @@ namespace Corbae.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 3, 3, 20, 33, 52, 909, DateTimeKind.Utc).AddTicks(1767));
+                        .HasDefaultValue(new DateTime(2023, 3, 6, 20, 40, 5, 297, DateTimeKind.Utc).AddTicks(5110));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -238,13 +237,13 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.Models.Cart", "Cart")
                         .WithMany("CartProducts")
                         .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Corbae.Models.Product", "Product")
                         .WithMany("CartProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Cart");
@@ -257,7 +256,7 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -268,13 +267,13 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.Models.Order", "Order")
                         .WithMany("OrderProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Corbae.Models.Product", "Product")
                         .WithMany("OrderProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Corbae.Models.User", null)
@@ -291,7 +290,7 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.Models.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");

@@ -18,7 +18,6 @@ namespace Corbae.Configure
             builder.Property(u => u.Email).IsRequired().HasMaxLength(128);
             builder.Property(u=>u.Name).IsRequired().HasMaxLength(128);
             builder.Property(u => u.Password).IsRequired();
-            builder.Property(u => u.CreationDate).HasDefaultValue(DateTime.UtcNow);
             builder.Property(u => u.Company).HasMaxLength(128);
             builder
                    .HasOne(u => u.Cart)

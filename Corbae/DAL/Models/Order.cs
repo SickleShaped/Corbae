@@ -9,7 +9,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id Заказа
         /// </summary>
-        public string OrderID { get; set; } = null!;
+        public Guid OrderID { get; set; }
 
         /// <summary>
         /// Общая стоимость заказа
@@ -35,12 +35,12 @@ namespace Corbae.Models
         /// Пользователь, совершивший заказ
         /// </summary>
         [JsonIgnore]
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
 
         /// <summary>
         /// Id пользователя, совершающего этот заказ
         /// </summary>
-        public string UserID { get; set; } = null!;
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Продукты, содержащиеся в заказе

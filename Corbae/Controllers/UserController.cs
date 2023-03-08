@@ -17,17 +17,17 @@ namespace Corbae.Controllers
         }
 
         [HttpGet("GetUserByID")]
-        public async Task<IActionResult> GetUserByID(string userId)
+        public async Task<IActionResult> GetUserByID(Guid userId)
         {
             var orders = await _serviceManager.UserService.GetById(userId);
             return Json(orders);
         }
 
         [HttpPost("CreateUser")] //POST: /createuser
-        public async Task<string> CreateUser(User user)
+        public async Task<Guid> CreateUser(User user)
         {
             var newUserId = await _serviceManager.UserService.Create(user);
-            return newUserId.ToString();
+            return newUserId;
         }
 
         [HttpDelete("DeleteUser")]

@@ -20,7 +20,7 @@ namespace Corbae.Configure
                    .HasOne(p => p.User)
                    .WithMany(u => u.Orders)
                    .HasForeignKey(p => p.UserID)
-                   .OnDelete(DeleteBehavior.SetNull);
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder
                    .HasMany(o => o.Products)
@@ -30,12 +30,12 @@ namespace Corbae.Configure
                     .HasOne(op => op.Product)
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(op => op.ProductID)
-                    .OnDelete(DeleteBehavior.SetNull),
+                    .OnDelete(DeleteBehavior.Cascade),
                 op => op
                     .HasOne(op => op.Order)
                     .WithMany(o => o.OrderProducts)
                     .HasForeignKey(op => op.ProductID)
-                    .OnDelete(DeleteBehavior.SetNull),
+                    .OnDelete(DeleteBehavior.Cascade),
                 op =>
                 {
                     op.HasKey(op => op.OrderProductID);

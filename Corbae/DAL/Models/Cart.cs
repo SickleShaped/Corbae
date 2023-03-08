@@ -8,7 +8,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id Корзины
         /// </summary>
-        public string CartID { get; set; } = null!;
+        public Guid CartID { get; set; }
 
         /// <summary>
         /// Пользователь, к которому принадлежит корзина

@@ -2,6 +2,6 @@
 {
     public class NoUserWithThatIdException:Exception
     {
-        public NoUserWithThatIdException(string id) : base($"Пользователь с ID {id} не найден") { }
+        public NoUserWithThatIdException(Guid id) : base($"Пользователь с ID {id} не найден") { }
     }
 }
