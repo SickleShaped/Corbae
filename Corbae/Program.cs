@@ -2,6 +2,7 @@ using Corbae.BLL;
 using Corbae.BLL.Implementations;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
+using Corbae.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -49,7 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
