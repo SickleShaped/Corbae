@@ -2,6 +2,7 @@ using Corbae.BLL;
 using Corbae.BLL.Implementations;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
+using Corbae.Mappings;
 using Corbae.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICartService, CartService>();
@@ -29,20 +31,7 @@ builder.Services.AddScoped<ServiceManager>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var serviceProvider = scope.ServiceProvider;
-    try
-    {
-        var context = serviceProvider.GetRequiredService<ApiDbContext>();
-        context.Database.EnsureCreated();
-    }
-    catch (Exception e)
-    {
-        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(e, $"An error occured while initializing the database: {e.Message}");
-    }
-}
+app.UseDBInitialize();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

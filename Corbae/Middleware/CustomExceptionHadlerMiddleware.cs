@@ -39,6 +39,8 @@ namespace Corbae.Middleware
                     break;
 
                 case EmailAlreadyInUseException emailAlreadyInUseException:
+                    code = HttpStatusCode.Conflict;
+                    result = JsonSerializer.Serialize(emailAlreadyInUseException);
                     break;
 
                 case NoRoleException noRoleException:
