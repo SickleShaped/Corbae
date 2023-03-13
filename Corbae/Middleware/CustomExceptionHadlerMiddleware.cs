@@ -41,9 +41,6 @@ namespace Corbae.Middleware
                 case EmailAlreadyInUseException emailAlreadyInUseException:
                     code = HttpStatusCode.BadRequest;
                     break;
-
-                case NoRoleException noRoleException:
-                    break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
