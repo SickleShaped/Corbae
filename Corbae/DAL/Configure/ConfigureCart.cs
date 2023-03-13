@@ -20,16 +20,19 @@ namespace Corbae.Configure
                 cp => cp
                     .HasOne(cp => cp.Product)
                     .WithMany(p => p.CartProducts)
-                    .HasForeignKey(cp => cp.ProductID),
+                    .HasForeignKey(cp => cp.ProductID)
+                    .OnDelete(DeleteBehavior.Cascade),
                 cp => cp
                     .HasOne(cp => cp.Cart)
                     .WithMany(c => c.CartProducts)
-                    .HasForeignKey(cp => cp.CartID),
+                    .HasForeignKey(cp => cp.CartID)
+                    .OnDelete(DeleteBehavior.Cascade), 
                 cp =>
                 {
                     cp.HasKey(cp=>cp.CartProductID);
                     cp.HasIndex(cp => cp.CartProductID).IsUnique();
                     cp.ToTable("CartProducts");
+                    
                 });
 
         }

@@ -1,4 +1,5 @@
 ﻿using Corbae.BLL.Interfaces;
+using Corbae.DAL;
 
 namespace Corbae.BLL.Implementations
 {

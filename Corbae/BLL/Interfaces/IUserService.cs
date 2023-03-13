@@ -1,4 +1,5 @@
 ﻿using Corbae.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -11,14 +12,14 @@ namespace Corbae.BLL.Interfaces
         /// Получить всех пользователей
         /// </summary>
         /// <returns>Пользователи</returns>
-        List<User> GetAll();
+        Task<List<User>> GetAll();
 
         /// <summary>
         /// Получить пользователя по id
         /// </summary>
         /// <param name="id">id пользователя</param>
         /// <returns>пользователь</returns>
-        Task<User?> GetById(string id);
+        Task<User?> GetById(Guid id);
 
         /// <summary>
         /// Получить пользователя по email
@@ -31,8 +32,8 @@ namespace Corbae.BLL.Interfaces
         /// Создать пользователя
         /// </summary>
         /// <param name="user">ппользователь</param>
-        /// <returns>Пользователь</returns>
-        Task<string?> Create(User user);
+        /// <returns>Id Пользователь</returns>
+        Task<Guid> Create(User user);
 
         /// <summary>
         /// Изменить пользователя
@@ -46,7 +47,8 @@ namespace Corbae.BLL.Interfaces
         /// Удалить пользователя
         /// </summary>
         /// <param name="id">id пользователя</param>
-        /// <returns>Пользователь</returns>
-        //Task<User?> Delete(string id);
+        /// <param name="password">Пароль пользователя</param>
+        /// <returns>true</returns>
+        void Delete(Guid id, string password);
     }
 }
