@@ -49,6 +49,6 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id">id пользователя</param>
         /// <param name="password">Пароль пользователя</param>
         /// <returns>true</returns>
-        Task<bool> Delete(Guid id, string password);
+        void Delete(Guid id, string password);
     }
 }

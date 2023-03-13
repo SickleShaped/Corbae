@@ -31,9 +31,9 @@ namespace Corbae.Controllers
         }
 
         [HttpDelete("DeleteUser")]
-        public async void DeleteUser(User user, string password)
+        public async void DeleteUser(Guid id, string password)
         {
-            await _serviceManager.UserService.Delete(user.UserID, password);
+             _serviceManager.UserService.Delete(id, password);
         }
 
     }

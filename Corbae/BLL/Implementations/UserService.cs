@@ -5,6 +5,7 @@ using Corbae.Exceptions;
 using Corbae.Exceptions.UserExceptions;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using Corbae.DAL;
 using Corbae.BLL.Exceptions.UserExceptions;
 
@@ -53,27 +54,13 @@ namespace Corbae.BLL.Implementations
             return user.UserID;
         }
 
-        public async Task<bool> Delete(Guid id, string password)
+        public async void Delete(Guid id, string password)
         {
-            var idUser = await GetById(id);
-            if(idUser == null)
+            var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync();
+            if(res==0)
             {
                 throw new NoUserWithThatIdException(id);
             }
-
-            if(BCrypt.Net.BCrypt.EnhancedVerify(password, idUser.Password))
-            {
-                throw new WrongPasswordException();
-            }
-
-            _dbContext.Users.Remove(idUser);
-            await _dbContext.SaveChangesAsync();
-
-            //
-            _dbContext.Users.Where(u => u.UserID == id).ExecuteDelete();
-            //
-
-            return true;
         }
     }
 }

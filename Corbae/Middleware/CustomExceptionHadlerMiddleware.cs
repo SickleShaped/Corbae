@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
+using System.Reflection;
 
 namespace Corbae.Middleware
 {
@@ -35,12 +36,10 @@ namespace Corbae.Middleware
             {
                 case ValidationException validationException:
                     code=HttpStatusCode.BadRequest;
-                    result=JsonSerializer.Serialize(validationException);
                     break;
 
                 case EmailAlreadyInUseException emailAlreadyInUseException:
-                    code = HttpStatusCode.Conflict;
-                    result = JsonSerializer.Serialize(emailAlreadyInUseException);
+                    code = HttpStatusCode.BadRequest;
                     break;
 
                 case NoRoleException noRoleException:
@@ -48,11 +47,11 @@ namespace Corbae.Middleware
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
-            if(result == string.Empty)
+            result = JsonSerializer.Serialize(new
             {
-                result = JsonSerializer.Serialize(new { error = ex.Message });
-            }
-
+                statuscode = code,
+                message = ex.Message
+            });
             return context.Response.WriteAsync(result);
         }
     }
