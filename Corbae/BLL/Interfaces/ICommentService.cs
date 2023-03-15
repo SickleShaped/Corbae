@@ -1,12 +1,11 @@
-﻿using Corbae.Models;
-using Corbae.DAL.Models.DBModels;
+﻿using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.BLL.Interfaces
 {
     /// <summary>
-    /// Интерфейс, определяющий методы взаимодейвия с заказом/заказами
+    /// Интерфейс, определяющий методы взаимодейвия с комментариями под товарами
     /// </summary>
-    public interface IOrderService
+    public interface ICommentService
     {
         /// <summary>
         /// Получить все заказы

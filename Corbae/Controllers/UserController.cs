@@ -1,7 +1,10 @@
-﻿using Corbae.BLL;
+﻿using Corbae.BLL.Interfaces;
 using Corbae.Exceptions.UserExceptions;
 using Corbae.Models;
 using Microsoft.AspNetCore.Mvc;
+using Corbae.DAL.Models.DBModels;
+using AutoMapper;
+using Corbae.DAL.Models.DTO;
 
 namespace Corbae.Controllers
 {
@@ -9,31 +12,36 @@ namespace Corbae.Controllers
     [Route("/api/user")]
     public class UserController : Controller
     {
-        private readonly ServiceManager _serviceManager;
 
-        public UserController(ServiceManager serviceManager)
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+
+        public UserController(IUserService userService, IMapper mapper)
         {
-            _serviceManager = serviceManager;
+            _userService = userService;
+            _mapper = mapper;   
         }
 
         [HttpGet("GetUserByID")]
         public async Task<IActionResult> GetUserByID(Guid userId)
         {
-            var orders = await _serviceManager.UserService.GetById(userId);
+            var orders = await _userService.GetById(userId);
             return Json(orders);
         }
 
         [HttpPost("CreateUser")] //POST: /createuser
         public async Task<Guid> CreateUser(User user)
         {
-            var newUserId = await _serviceManager.UserService.Create(user);
+            var user_ = _mapper.Map<UserDB>(user);
+            var newUserId = await _userService.Create(user_);
             return newUserId;
         }
 
         [HttpDelete("DeleteUser")]
         public async void DeleteUser(Guid id, string password)
         {
-             _serviceManager.UserService.Delete(id, password);
+            _userService.Delete(id, password);
         }
 
     }

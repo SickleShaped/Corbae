@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Corbae.Models;
+using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DTO;
 
 namespace Corbae.Mappings
 {
@@ -7,7 +9,7 @@ namespace Corbae.Mappings
     {
         public AppMappingProfile()
         {
-            CreateMap<User, Product>().ReverseMap();
+            CreateMap<UserDB, User>().ReverseMap();
         }
     }
 }

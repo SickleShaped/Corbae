@@ -1,19 +1,18 @@
 ﻿using Corbae.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
-    public class ConfigureOrder : IEntityTypeConfiguration<Order>
+    public class ConfigureOrder : IEntityTypeConfiguration<OrderDB>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<OrderDB> builder)
         {
             builder.ToTable("Orders");
 
             builder.HasKey(o => o.OrderID);
             builder.HasIndex(o => o.OrderID).IsUnique();
-
-            builder.Property(o => o.CreationDate).HasDefaultValue(DateTime.UtcNow);
             
 
             builder

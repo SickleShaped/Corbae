@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Corbae.DAL.Models.DBModels;
 using System.Text.Json.Serialization;
 
 namespace Corbae.Models
@@ -11,10 +12,10 @@ namespace Corbae.Models
         public Guid ProductID { get; set; }
 
         [JsonIgnore]
-        public Order? Order { get; set; }
+        public OrderDB? Order { get; set; }
 
         [JsonIgnore]
-        public Product? Product { get;set; }
+        public ProductDB? Product { get;set; }
 
     }
 }

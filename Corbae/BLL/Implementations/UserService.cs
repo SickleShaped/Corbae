@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Corbae.DAL;
 using Corbae.BLL.Exceptions.UserExceptions;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.BLL.Implementations
 {
@@ -20,22 +21,22 @@ namespace Corbae.BLL.Implementations
             _dbContext = dbContext;
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<UserDB>> GetAll()
         {
             return await _dbContext.Users.Include(u => u.Orders).AsNoTracking().ToListAsync();
         }
 
-        public async Task<User?> GetById(Guid id)
+        public async Task<UserDB?> GetById(Guid id)
         {
             return await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id);
         }
 
-        public async Task<User?> GetByEmail(string email)
+        public async Task<UserDB?> GetByEmail(string email)
         {
             return await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<Guid> Create(User user)
+        public async Task<Guid> Create(UserDB user)
         {
             user.UserID = Guid.NewGuid();
             user.CreationDate = DateTime.UtcNow;

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
+﻿using Corbae.DAL.Models.DBModels;
+using Corbae.Models;
 using System.Text.Json.Serialization;
 
-namespace Corbae.Models
+namespace Corbae.DAL.Models.DTO
 {
     public class Order
     {
@@ -19,7 +19,7 @@ namespace Corbae.Models
         /// <summary>
         /// Дата создания заказа
         /// </summary>
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         /// <summary>
         /// Дата Доставки заказа
@@ -32,24 +32,8 @@ namespace Corbae.Models
         public string DeliveryPlace { get; set; } = null!;
 
         /// <summary>
-        /// Пользователь, совершивший заказ
-        /// </summary>
-        [JsonIgnore]
-        public User? User { get; set; }
-
-        /// <summary>
         /// Id пользователя, совершающего этот заказ
         /// </summary>
         public Guid UserID { get; set; }
-
-        /// <summary>
-        /// Продукты, содержащиеся в заказе
-        /// </summary>
-        [JsonIgnore]
-        public List<Product> Products { get; set; } = new List<Product>();
-
-        [JsonIgnore]
-        public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
-
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
-    public class ConfigureCart : IEntityTypeConfiguration<Cart>
+    public class ConfigureCart : IEntityTypeConfiguration<CartDB>
     {
-        public void Configure(EntityTypeBuilder<Cart> builder)
+        public void Configure(EntityTypeBuilder<CartDB> builder)
         {
             builder.ToTable("Carts");
 

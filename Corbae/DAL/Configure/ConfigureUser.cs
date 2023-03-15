@@ -1,12 +1,13 @@
 ﻿using Corbae.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
-    public class ConfigureUser : IEntityTypeConfiguration<User>
+    public class ConfigureUser : IEntityTypeConfiguration<UserDB>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<UserDB> builder)
         {
             builder.ToTable("Users");
 
@@ -22,7 +23,7 @@ namespace Corbae.Configure
             builder
                    .HasOne(u => u.Cart)
                    .WithOne(c => c.User)
-                   .HasForeignKey<Cart>(c => c.CartID)
+                   .HasForeignKey<CartDB>(c => c.CartID)
                    .OnDelete(DeleteBehavior.Cascade);
 
         }

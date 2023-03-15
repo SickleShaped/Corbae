@@ -1,4 +1,5 @@
-﻿using Corbae.Models;
+﻿
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.BLL.Interfaces
 {

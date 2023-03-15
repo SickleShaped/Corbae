@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Corbae.DAL.Models.DBModels;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Corbae.Models
@@ -11,10 +12,11 @@ namespace Corbae.Models
         public Guid CartID { get; set; }
 
         [JsonIgnore]
-        public Product? Product { get; set; }
+        public ProductDB? Product { get; set; }
 
         [JsonIgnore]
-        public Cart? Cart { get; set; }
+        public CartDB? Cart { get; set; }
+        
 
     }
 }

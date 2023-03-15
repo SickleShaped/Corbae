@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Corbae.Models;
 
-namespace Corbae.Models
+namespace Corbae.DAL.Models.DBModels
 {
-    public class Product
+    public class ProductDB
     {
         /// <summary>
         /// Id птовара
@@ -43,25 +44,20 @@ namespace Corbae.Models
         /// <summary>
         /// Пользователь, добавивший этот товар
         /// </summary>
-        [JsonIgnore]
-        public User? User { get; set; }
+        public UserDB? User { get; set; }
 
         /// <summary>
         /// Заказы, в которых есть этот товар
         /// </summary>
-        [JsonIgnore]
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<OrderDB> Orders { get; set; } = new List<OrderDB>();
 
-        [JsonIgnore]
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         /// <summary>
         /// Корзины, в которых есть этот товар
         /// </summary>
-        [JsonIgnore]
-        public List<Cart> Carts { get; set; } = new List<Cart>();
+        public List<CartDB> Carts { get; set; } = new List<CartDB>();
 
-        [JsonIgnore]
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
 

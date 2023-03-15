@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
-    public class ConfigureProduct : IEntityTypeConfiguration<Product>
+    public class ConfigureProduct : IEntityTypeConfiguration<ProductDB>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<ProductDB> builder)
         {
             builder.ToTable("Products");
 

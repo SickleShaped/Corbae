@@ -1,15 +1,15 @@
-﻿using Corbae.BLL;
+﻿using Corbae.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ServiceManager _serviceManager;
+        private readonly IUserService _userService;
 
-        public ProductController(ServiceManager serviceManager)
+        public ProductController(IUserService userService)
         {
-            _serviceManager = serviceManager;
+            _userService = _userService;
         }
     }
 }

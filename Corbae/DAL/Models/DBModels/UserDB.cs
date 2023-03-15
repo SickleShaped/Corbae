@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Corbae.DAL.Models;
+using Corbae.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Corbae.Models
+namespace Corbae.DAL.Models.DBModels
 {
-    public class User
+    public class UserDB
     {
         /// <summary>
         /// Id пользователя
@@ -43,7 +45,7 @@ namespace Corbae.Models
         /// <summary>
         /// Дата создания пользователя
         /// </summary>
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
 
         /// <summary>
         /// Баланс пользователя
@@ -73,23 +75,24 @@ namespace Corbae.Models
         /// <summary>
         /// Корзина пользователя
         /// </summary>
-        [JsonIgnore]
-        public Cart? Cart { get; set; }
+        public CartDB? Cart { get; set; }
 
         /// <summary>
         /// Товары, добавленные пользователем
         /// </summary>
-        [JsonIgnore]
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<ProductDB> Products { get; set; } = new List<ProductDB>();
 
         /// <summary>
         /// Заказы пользователя
         /// </summary>
-        [JsonIgnore]
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<OrderDB> Orders { get; set; } = new List<OrderDB>();
 
-        [JsonIgnore]
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+
+        /// <summary>
+        /// Комментарии пользователя
+        /// </summary>
+        public List<CommentDB> Comments { get; set; } = new List<CommentDB>();
 
 
     }

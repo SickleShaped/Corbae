@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Corbae.Migrations
 {
     /// <inheritdoc />
-    public partial class Guid : Migration
+    public partial class Mapper : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,7 +22,7 @@ namespace Corbae.Migrations
                     Company = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     Adress = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 3, 6, 20, 40, 5, 297, DateTimeKind.Utc).AddTicks(5110)),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Money = table.Column<decimal>(type: "numeric", nullable: false),
                     Rating = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     IsAdmin = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
@@ -52,12 +52,31 @@ namespace Corbae.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentID = table.Column<Guid>(type: "uuid", nullable: false),
+                    Text = table.Column<string>(type: "character varying(1023)", maxLength: 1023, nullable: true),
+                    UserID = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
+                    table.ForeignKey(
+                        name: "FK_Comments_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     OrderID = table.Column<Guid>(type: "uuid", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 3, 6, 20, 40, 5, 295, DateTimeKind.Utc).AddTicks(8336)),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DeliveryPlace = table.Column<string>(type: "text", nullable: false),
                     UserID = table.Column<Guid>(type: "uuid", nullable: false)
@@ -128,7 +147,7 @@ namespace Corbae.Migrations
                     OrderProductID = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderID = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductID = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserID = table.Column<Guid>(type: "uuid", nullable: true)
+                    UserDBUserID = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,8 +165,8 @@ namespace Corbae.Migrations
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderProducts_Users_UserID",
-                        column: x => x.UserID,
+                        name: "FK_OrderProducts_Users_UserDBUserID",
+                        column: x => x.UserDBUserID,
                         principalTable: "Users",
                         principalColumn: "UserID");
                 });
@@ -175,6 +194,17 @@ namespace Corbae.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_CommentID",
+                table: "Comments",
+                column: "CommentID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserID",
+                table: "Comments",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderProducts_OrderProductID",
                 table: "OrderProducts",
                 column: "OrderProductID",
@@ -186,9 +216,9 @@ namespace Corbae.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderProducts_UserID",
+                name: "IX_OrderProducts_UserDBUserID",
                 table: "OrderProducts",
-                column: "UserID");
+                column: "UserDBUserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderID",
@@ -224,6 +254,9 @@ namespace Corbae.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CartProducts");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "OrderProducts");

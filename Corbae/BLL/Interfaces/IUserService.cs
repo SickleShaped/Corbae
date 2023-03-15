@@ -1,5 +1,7 @@
 ﻿using Corbae.Models;
 using Microsoft.AspNetCore.Mvc;
+using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DTO;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -12,28 +14,28 @@ namespace Corbae.BLL.Interfaces
         /// Получить всех пользователей
         /// </summary>
         /// <returns>Пользователи</returns>
-        Task<List<User>> GetAll();
+        Task<List<UserDB>> GetAll();
 
         /// <summary>
         /// Получить пользователя по id
         /// </summary>
         /// <param name="id">id пользователя</param>
         /// <returns>пользователь</returns>
-        Task<User?> GetById(Guid id);
+        Task<UserDB?> GetById(Guid id);
 
         /// <summary>
         /// Получить пользователя по email
         /// </summary>
         /// <param name="name">email пользователя</param>
         /// <returns>пользователь</returns>
-        Task<User?> GetByEmail(string email);
+        Task<UserDB?> GetByEmail(string email);
 
         /// <summary>
         /// Создать пользователя
         /// </summary>
         /// <param name="user">ппользователь</param>
         /// <returns>Id Пользователь</returns>
-        Task<Guid> Create(User user);
+        Task<Guid> Create(UserDB user);
 
         /// <summary>
         /// Изменить пользователя

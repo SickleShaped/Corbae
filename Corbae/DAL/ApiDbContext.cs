@@ -2,6 +2,7 @@
 using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.DAL
 {
@@ -11,10 +12,10 @@ namespace Corbae.DAL
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Cart> Carts { get; set; } = null!;
-        public DbSet<Order> Orders { get; set; } = null!;
-        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<UserDB> Users { get; set; } = null!;
+        public DbSet<CartDB> Carts { get; set; } = null!;
+        public DbSet<OrderDB> Orders { get; set; } = null!;
+        public DbSet<ProductDB> Products { get; set; } = null!;
         public DbSet<OrderProduct> OrdersProducts { get; set; } = null!;
         public DbSet<CartProduct> CartProducts { get; set; } = null!;
 
