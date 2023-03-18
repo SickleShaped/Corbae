@@ -6,8 +6,15 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.DAL.Configure
 {
+    /// <summary>
+    /// Класс, описывающий конфигурацию комментариев в БД
+    /// </summary>
     public class ConfigureComment : IEntityTypeConfiguration<CommentDB>
-    {
+    {   
+        /// <summary>
+        /// Конфигурация комментариев в базе данных
+        /// </summary>
+        /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<CommentDB> builder)
         {
             builder.ToTable("Comments");

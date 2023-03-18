@@ -18,7 +18,7 @@ namespace Corbae.BLL.Interfaces
         /// Создать JWT токен
         /// </summary>
         /// <param name="user"> пользователь </param>
-        /// <returns>jwt токен в форме строки</returns>
+        /// <returns>string</returns>
         //string JwtIssue(User user);
     }
 }

@@ -1,8 +1,12 @@
-﻿using Corbae.DAL;
+﻿using Corbae.BLL.Interfaces;
+using Corbae.DAL;
 
 namespace Corbae.BLL.Implementations
 {
-    public class CommentService
+    /// <summary>
+    /// Класс, в котором реализованы методы взаимодействия с коментариями
+    /// </summary>
+    public class CommentService:ICommentService
     {
         private readonly ApiDbContext _dbContext;
 

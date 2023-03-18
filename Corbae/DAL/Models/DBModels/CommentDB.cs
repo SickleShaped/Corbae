@@ -2,6 +2,9 @@
 
 namespace Corbae.DAL.Models.DBModels
 {
+    /// <summary>
+    /// Класс, содержащий поля комментария, получаемого из БД 
+    /// </summary>
     public class CommentDB
     {
         /// <summary>
@@ -14,6 +17,9 @@ namespace Corbae.DAL.Models.DBModels
         /// </summary>
         public string? Text { get; set; }
 
+        /// <summary>
+        /// ID Пользователя, оставивший этот комментарий
+        /// </summary>
         public Guid UserID { get; set; }
 
         /// <summary>

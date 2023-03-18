@@ -4,6 +4,9 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Models
 {
+    /// <summary>
+    /// Класс, содержащий поля корзины
+    /// </summary>
     public class Cart
     {
         /// <summary>
@@ -14,11 +17,11 @@ namespace Corbae.Models
         /// <summary>
         /// Пользователь, к которому принадлежит корзина
         /// </summary>
-        public UserDB User { get; set; } = null!;
+        public Guid UserID { get; set; }
 
-
-        
-
-
+        /// <summary>
+        /// Продукты, содержащиеся в корзине
+        /// </summary>]
+        public List<ProductDB> Products { get; set; } = new List<ProductDB>();
     }
 }

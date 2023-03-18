@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Corbae.BLL.Implementations
 {
+    /// <summary>
+    /// Класс, в котором реализованы методы взаимодействия с корзиной
+    /// </summary>
     public class CartService:ICartService
     {
         private readonly ApiDbContext _dbContext;

@@ -5,8 +5,15 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
+    /// <summary>
+    /// Класс, описывающий конфигурацию пользователя в БД
+    /// </summary>
     public class ConfigureUser : IEntityTypeConfiguration<UserDB>
     {
+        /// <summary>
+        /// Конфигурация пользователя в БД
+        /// </summary>
+        /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<UserDB> builder)
         {
             builder.ToTable("Users");

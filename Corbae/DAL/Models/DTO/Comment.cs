@@ -2,6 +2,9 @@
 
 namespace Corbae.DAL.Models.DTO
 {
+    /// <summary>
+    /// Класс, содержащий поля комментария
+    /// </summary>
     public class Comment
     {
         /// <summary>
@@ -18,6 +21,5 @@ namespace Corbae.DAL.Models.DTO
        /// ID пользователя, оставившего этот комментарий
        /// </summary>
         public Guid UserID { get; set; }
-
     }
 }

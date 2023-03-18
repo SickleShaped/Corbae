@@ -5,8 +5,15 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
+    /// <summary>
+    /// Класс, описывающий конфигурацию корзины в БД
+    /// </summary>
     public class ConfigureCart : IEntityTypeConfiguration<CartDB>
     {
+        /// <summary>
+        /// Конфигурация Корзины в БД
+        /// </summary>
+        /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<CartDB> builder)
         {
             builder.ToTable("Carts");

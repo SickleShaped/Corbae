@@ -5,6 +5,9 @@ using Corbae.Models;
 
 namespace Corbae.DAL.Models.DBModels
 {
+    /// <summary>
+    /// Класс, содержащий поля заказа, получаемого из БД 
+    /// </summary>
     public class OrderDB
     {
         /// <summary>
@@ -47,6 +50,9 @@ namespace Corbae.DAL.Models.DBModels
         /// </summary>
         public List<ProductDB> Products { get; set; } = new List<ProductDB>();
 
+        /// <summary>
+        /// Вспомогательное поле для связи МкМ
+        /// </summary>
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
     }

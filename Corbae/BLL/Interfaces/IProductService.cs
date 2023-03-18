@@ -1,5 +1,6 @@
 ﻿using Corbae.Models;
 using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DTO;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -12,7 +13,7 @@ namespace Corbae.BLL.Interfaces
         /// Получить все товары
         /// </summary>
         /// <returns>Товары</returns>
-        //List<Product> GetAll();
+        Task<List<Product>> GetAll();
 
         /// <summary>
         /// Получить товар по id

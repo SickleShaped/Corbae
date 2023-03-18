@@ -4,9 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace Corbae.DAL.Models.DTO
 {
+    /// <summary>
+    /// Класс, содержащий поля товара
+    /// </summary>
     public class Product
     {
-
         /// <summary>
         /// Id птовара
         /// </summary>
@@ -41,6 +43,5 @@ namespace Corbae.DAL.Models.DTO
         /// Id пользователя, добавившего этот товар
         /// </summary>
         public Guid UserID { get; set; }
-
     }
 }

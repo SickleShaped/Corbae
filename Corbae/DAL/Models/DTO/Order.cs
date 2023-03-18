@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace Corbae.DAL.Models.DTO
 {
+    /// <summary>
+    /// Класс, содержащий поля заказа
+    /// </summary>
     public class Order
     {
         /// <summary>

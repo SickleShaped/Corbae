@@ -1,15 +1,21 @@
-﻿using Corbae.BLL.Interfaces;
+﻿using AutoMapper;
+using Corbae.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
 {
+    /// <summary>
+    /// Контроллер товара
+    /// </summary>
     public class ProductController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(IUserService userService)
+        public ProductController(IProductService productService, IMapper mapper)
         {
-            _userService = _userService;
+            _productService = productService;
+            _mapper = mapper;
         }
     }
 }

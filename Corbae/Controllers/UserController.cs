@@ -8,6 +8,9 @@ using Corbae.DAL.Models.DTO;
 
 namespace Corbae.Controllers
 {
+    /// <summary>
+    /// Контроллер пользователя
+    /// </summary>
     [ApiController]
     [Route("/api/user")]
     public class UserController : Controller
@@ -23,27 +26,61 @@ namespace Corbae.Controllers
             _mapper = mapper;   
         }
 
+        /// <summary>
+        /// Get-запрос на получение всех пользователей
+        /// </summary>
+        /// <returns>List<User></User></returns>
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAll();
+            return Json(users);
+        }
+
+        /// <summary>
+        /// Get-запрос на получение пользователя по ID
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Json(User?)</returns>
         [HttpGet("GetUserByID")]
         public async Task<IActionResult> GetUserByID(Guid userId)
         {
-            var orders = await _userService.GetById(userId);
-            return Json(orders);
+            var user = await _userService.GetById(userId);
+            return Json(user);
         }
 
+        /// <summary>
+        /// Post-Запрос на создание пользователя
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Guid</returns>
         [HttpPost("CreateUser")] //POST: /createuser
         public async Task<Guid> CreateUser(User user)
         {
-            var user_ = _mapper.Map<UserDB>(user);
-            var newUserId = await _userService.Create(user_);
+            var newUserId = await _userService.Create(user);
             return newUserId;
         }
 
-        [HttpDelete("DeleteUser")]
-        public async void DeleteUser(Guid id, string password)
+
+        /// <summary>
+        /// Put-Запрос на выдавание пользователю полномочий админа
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpPut("AddAdminCapability")]
+        public void AddAdminCapability(Guid id)
         {
-            _userService.Delete(id, password);
+            _userService.AddAdminCapability(id);
         }
 
+        /// <summary>
+        /// Delete-запрос удаления пользователя по его ID
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpDelete("DeleteUser")]
+        public void DeleteUser(Guid id)
+        {
+            _userService.Delete(id);
+        }
     }
 
 

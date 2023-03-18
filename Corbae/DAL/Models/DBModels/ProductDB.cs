@@ -4,6 +4,9 @@ using Corbae.Models;
 
 namespace Corbae.DAL.Models.DBModels
 {
+    /// <summary>
+    /// Класс, содержащий поля товара, получаемого из БД 
+    /// </summary>
     public class ProductDB
     {
         /// <summary>
@@ -51,6 +54,9 @@ namespace Corbae.DAL.Models.DBModels
         /// </summary>
         public List<OrderDB> Orders { get; set; } = new List<OrderDB>();
 
+        /// <summary>
+        /// Вспомогательное поле для связи МкМ
+        /// </summary>
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         /// <summary>
@@ -58,6 +64,9 @@ namespace Corbae.DAL.Models.DBModels
         /// </summary>
         public List<CartDB> Carts { get; set; } = new List<CartDB>();
 
+        /// <summary>
+        /// Вспомогательное поле для связи МкМ
+        /// </summary>
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
 

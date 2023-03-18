@@ -5,8 +5,15 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
+    /// <summary>
+    /// Класс, описыающий конфигурацию заказа в БД
+    /// </summary>
     public class ConfigureOrder : IEntityTypeConfiguration<OrderDB>
     {
+        /// <summary>
+        /// Конфигурация заказа в БД
+        /// </summary>
+        /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<OrderDB> builder)
         {
             builder.ToTable("Orders");

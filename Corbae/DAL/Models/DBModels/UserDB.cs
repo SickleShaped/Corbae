@@ -5,6 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace Corbae.DAL.Models.DBModels
 {
+    /// <summary>
+    /// Класс, содержащий поля пользователя, получаемого из БД 
+    /// </summary>
     public class UserDB
     {
         /// <summary>
@@ -87,6 +90,9 @@ namespace Corbae.DAL.Models.DBModels
         /// </summary>
         public List<OrderDB> Orders { get; set; } = new List<OrderDB>();
 
+        /// <summary>
+        /// Вспомогательное поле для связи МкМ
+        /// </summary>
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         /// <summary>

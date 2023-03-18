@@ -4,11 +4,24 @@ using System.Text.Json.Serialization;
 
 namespace Corbae.Models
 {
+    /// <summary>
+    /// Класс, содержащий поля пользователя вспомогательной таблицы для связи МкМ между таблицами Товара и Заказа
+    /// </summary>
     public class OrderProduct
     {
-        //[Key]
+        /// <summary>
+        /// Ключевое поле для вспомогательной таблицы
+        /// </summary>
         public Guid OrderProductID { get; set; }
+
+        /// <summary>
+        /// ID Заказа
+        /// </summary>
         public Guid OrderID { get; set; }
+
+        /// <summary>
+        /// ID Товара
+        /// </summary>
         public Guid ProductID { get; set; }
 
         [JsonIgnore]

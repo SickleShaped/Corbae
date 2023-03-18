@@ -1,18 +1,10 @@
-﻿using Corbae.Models;
-using System.Text.Json.Serialization;
-
-namespace Corbae.DAL.Models.DTO
+﻿namespace Corbae.DAL.Models.Auxiliary_Models
 {
     /// <summary>
-    /// Класс, содержащий поля пользователя
+    /// Класс, содержащий поля пользователя, используемые для изменения пользователя
     /// </summary>
-    public class User
+    public class UserToEdit
     {
-        /// <summary>
-        /// Id пользователя
-        /// </summary>
-        public Guid UserID { get; set; }
-
         /// <summary>
         /// Почта пользователя
         /// </summary>
@@ -44,26 +36,6 @@ namespace Corbae.DAL.Models.DTO
         public string? PhoneNumber { get; set; }
 
         /// <summary>
-        /// Дата создания пользователя
-        /// </summary>
-        public DateTime? CreationDate { get; set; }
-
-        /// <summary>
-        /// Баланс пользователя
-        /// </summary>
-        public decimal Money { get; set; }
-
-        /// <summary>
-        /// Рейтинг пользователя
-        /// </summary>
-        public ulong Rating { get; set; }
-
-        /// <summary>
-        /// Является ли пользователь Админом
-        /// </summary>
-        public bool IsAdmin { get; set; }
-
-        /// <summary>
         /// Является ли пользователь Продавцом
         /// </summary>
         public bool IsSeller { get; set; }
@@ -72,5 +44,8 @@ namespace Corbae.DAL.Models.DTO
         /// Является ли пользователь Покупателем
         /// </summary>
         public bool IsCustomer { get; set; }
+
+
+
     }
 }

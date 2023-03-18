@@ -1,8 +1,8 @@
 using Corbae.BLL.Implementations;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
+using Corbae.Extensions;
 using Corbae.Mappings;
-using Corbae.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -24,12 +24,12 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
 
 var app = builder.Build();
 
 app.UseDBInitialize();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

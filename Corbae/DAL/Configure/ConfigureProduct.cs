@@ -6,8 +6,15 @@ using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
+    /// <summary>
+    /// Класс, описывающий конфигурацию товара в БД
+    /// </summary>
     public class ConfigureProduct : IEntityTypeConfiguration<ProductDB>
     {
+        /// <summary>
+        /// Конфигурация товара в БД
+        /// </summary>
+        /// <param name="builder"></param>
         public void Configure(EntityTypeBuilder<ProductDB> builder)
         {
             builder.ToTable("Products");

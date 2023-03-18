@@ -1,9 +1,17 @@
 ﻿using System.Runtime.CompilerServices;
+using Corbae.DAL;
 
-namespace Corbae.DAL
+namespace Corbae.Extensions
 {
+    /// <summary>
+    /// Класс, предоставляющий расширение с инициализацией БД
+    /// </summary>
     public static class UseDBInitializeExtensions
     {
+        /// <summary>
+        /// Инициализация БД
+        /// </summary>
+        /// <param name="app"></param>
         public static void UseDBInitialize(this WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
