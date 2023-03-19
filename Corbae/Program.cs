@@ -18,13 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
-
-builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ICartService, CartService>();
-builder.Services.AddTransient<IOrderService, OrderService>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddDependencyInjection();
 
 var app = builder.Build();
 
