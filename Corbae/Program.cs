@@ -1,4 +1,9 @@
-using Corbae;
+using Corbae.BLL;
+using Corbae.BLL.Implementations;
+using Corbae.BLL.Interfaces;
+using Corbae.DAL;
+using Corbae.Mappings;
+using Corbae.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -16,15 +21,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-/* builder.Services.AddDbContext<ApiDbContext>(options =>
-{
-options
-    .UseNpgsql(configuration.GetConnectionString("Default"),
-        assembly =>
-            assembly.MigrationsAssembly("Corbae"));
-}); */
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ICartService, CartService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddScoped<ServiceManager>();
 
 var app = builder.Build();
+
+app.UseDBInitialize();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -32,7 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

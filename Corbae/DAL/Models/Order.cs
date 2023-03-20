@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
+using System.Text.Json.Serialization;
 
 namespace Corbae.Models
 {
@@ -8,7 +9,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id Заказа
         /// </summary>
-        public string OrderID { get; set; } = null!;
+        public Guid OrderID { get; set; }
 
         /// <summary>
         /// Общая стоимость заказа
@@ -33,18 +34,21 @@ namespace Corbae.Models
         /// <summary>
         /// Пользователь, совершивший заказ
         /// </summary>
-        public User User { get; set; } = null!;
+        [JsonIgnore]
+        public User? User { get; set; }
 
         /// <summary>
         /// Id пользователя, совершающего этот заказ
         /// </summary>
-        public string UserID { get; set; } = null!;
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Продукты, содержащиеся в заказе
         /// </summary>
+        [JsonIgnore]
         public List<Product> Products { get; set; } = new List<Product>();
 
+        [JsonIgnore]
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
     }

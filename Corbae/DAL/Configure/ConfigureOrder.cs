@@ -14,11 +14,13 @@ namespace Corbae.Configure
             builder.HasIndex(o => o.OrderID).IsUnique();
 
             builder.Property(o => o.CreationDate).HasDefaultValue(DateTime.UtcNow);
+            
 
             builder
                    .HasOne(p => p.User)
                    .WithMany(u => u.Orders)
-                   .HasForeignKey(p => p.UserID);
+                   .HasForeignKey(p => p.UserID)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder
                    .HasMany(o => o.Products)
@@ -27,17 +29,21 @@ namespace Corbae.Configure
                 op => op
                     .HasOne(op => op.Product)
                     .WithMany(p => p.OrderProducts)
-                    .HasForeignKey(op => op.ProductID),
+                    .HasForeignKey(op => op.ProductID)
+                    .OnDelete(DeleteBehavior.Cascade),
                 op => op
                     .HasOne(op => op.Order)
                     .WithMany(o => o.OrderProducts)
-                    .HasForeignKey(op => op.ProductID),
+                    .HasForeignKey(op => op.ProductID)
+                    .OnDelete(DeleteBehavior.Cascade),
                 op =>
                 {
-                    op.HasKey(op=>op.OrderProductID);
+                    op.HasKey(op => op.OrderProductID);
                     op.HasIndex(op => op.OrderProductID).IsUnique();
                     op.ToTable("OrderProducts");
                 }) ;
+
+
         }
     }
 }

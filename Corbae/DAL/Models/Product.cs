@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Corbae.Models
 {
@@ -7,7 +8,7 @@ namespace Corbae.Models
         /// <summary>
         /// Id птовара
         /// </summary>
-        public string ProductID { get; set; } = null!;
+        public Guid ProductID { get; set; }
 
         /// <summary>
         /// Название товара
@@ -37,25 +38,30 @@ namespace Corbae.Models
         /// <summary>
         /// Id пользователя, добавившего этот товар
         /// </summary>
-        public string UserID { get; set; } = null!;
+        public Guid UserID { get; set; }
 
         /// <summary>
         /// Пользователь, добавивший этот товар
         /// </summary>
-        public User User { get; set; } = null!;
+        [JsonIgnore]
+        public User? User { get; set; }
 
         /// <summary>
         /// Заказы, в которых есть этот товар
         /// </summary>
+        [JsonIgnore]
         public List<Order> Orders { get; set; } = new List<Order>();
 
+        [JsonIgnore]
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
         /// <summary>
         /// Корзины, в которых есть этот товар
         /// </summary>
+        [JsonIgnore]
         public List<Cart> Carts { get; set; } = new List<Cart>();
 
+        [JsonIgnore]
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
 
