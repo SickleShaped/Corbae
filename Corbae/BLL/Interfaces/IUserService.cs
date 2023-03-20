@@ -68,7 +68,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <returns>void</returns>
-        void AddMoney(Guid id, int amount);
+        Task AddMoney(Guid id, int amount);
 
         /// <summary>
         /// Вычесть деньги с баланса пользователя
@@ -76,7 +76,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <returns>void</returns>
-        void ReduceMoney(Guid id, int amount);
+        Task ReduceMoney(Guid id, int amount);
 
         /// <summary>
         /// Удалить пользователя

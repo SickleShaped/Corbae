@@ -156,7 +156,7 @@ namespace Corbae.BLL.Implementations
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <exception cref="NoUserWithThatIdException"></exception>
-        public async void AddMoney(Guid id, int amount)
+        public async Task AddMoney(Guid id, int amount)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
             if (user == null)
@@ -174,7 +174,7 @@ namespace Corbae.BLL.Implementations
         /// <param name="amount"></param>
         /// <exception cref="NoUserWithThatIdException"></exception>
         /// <exception cref="NotEnoughMoneyException"></exception>
-        public async void ReduceMoney(Guid id, int amount)
+        public async Task ReduceMoney(Guid id, int amount)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
             if (user == null)
