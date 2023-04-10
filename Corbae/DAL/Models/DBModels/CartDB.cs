@@ -9,13 +9,9 @@ namespace Corbae.DAL.Models.DBModels
     /// </summary>
     public class CartDB
     {
-        /// <summary>
-        /// Id Корзины
-        /// </summary>
-        public Guid CartID { get; set; }
 
         /// <summary>
-        /// Пользователь, к которому принадлежит корзина
+        /// ID пользователя и корзины
         /// </summary>
         public Guid UserID { get; set; }
 
@@ -30,7 +26,7 @@ namespace Corbae.DAL.Models.DBModels
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
 
         /// <summary>
-        /// Пользователь, оставивший этот комментарий
+        /// Пользователь, чья корзина
         /// </summary>
         public UserDB? User { get; set; }
     }

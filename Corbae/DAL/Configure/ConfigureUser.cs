@@ -30,7 +30,7 @@ namespace Corbae.Configure
             builder
                    .HasOne(u => u.Cart)
                    .WithOne(c => c.User)
-                   .HasForeignKey<CartDB>(c => c.CartID)
+                   .HasForeignKey<CartDB>(c => c.UserID)
                    .OnDelete(DeleteBehavior.Cascade);
 
         }

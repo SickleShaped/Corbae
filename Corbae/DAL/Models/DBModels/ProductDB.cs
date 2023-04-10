@@ -10,7 +10,7 @@ namespace Corbae.DAL.Models.DBModels
     public class ProductDB
     {
         /// <summary>
-        /// Id птовара
+        /// Id товара
         /// </summary>
         public Guid ProductID { get; set; }
 
@@ -37,7 +37,7 @@ namespace Corbae.DAL.Models.DBModels
         /// <summary>
         /// Категория товара
         /// </summary>
-        public string Category { get; set; } = null!;
+        public string? Category { get; set; }
 
         /// <summary>
         /// Id пользователя, добавившего этот товар

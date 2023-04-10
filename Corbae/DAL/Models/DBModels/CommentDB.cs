@@ -26,5 +26,10 @@ namespace Corbae.DAL.Models.DBModels
         /// Пользователь, оставивший этот коментарий
         /// </summary>
         public UserDB? User { get; set; }
+
+        /// <summary>
+        /// ID товара, под которым оставлен этот комментарий
+        /// </summary>
+        public Guid ProductID { get; set; }
     }
 }

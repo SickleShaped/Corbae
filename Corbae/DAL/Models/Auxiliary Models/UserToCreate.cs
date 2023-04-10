@@ -1,9 +1,9 @@
 ﻿namespace Corbae.DAL.Models.Auxiliary_Models
 {
     /// <summary>
-    /// Класс, содержащий поля пользователя, используемые для изменения пользователя
+    /// Класс, содержащий поля пользователя, используемые для создания или изменения пользователя
     /// </summary>
-    public class UserToEdit
+    public class UserToCreate
     {
         /// <summary>
         /// Почта пользователя

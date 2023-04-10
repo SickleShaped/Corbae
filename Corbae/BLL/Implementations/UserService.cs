@@ -23,11 +23,13 @@ namespace Corbae.BLL.Implementations
     {
         private readonly ApiDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ICartService _cartService;
 
-        public UserService(ApiDbContext dbContext, IMapper mapper)
+        public UserService(ApiDbContext dbContext, IMapper mapper, ICartService cartService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _cartService = cartService;
         }
 
         /// <summary>
@@ -57,12 +59,12 @@ namespace Corbae.BLL.Implementations
         /// <returns></returns>
         public async Task<User?> GetByEmail(string email)
         {
-            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email, CancellationToken.None);
         }
 
         public async Task<User?> GetByPhoneNumber(string phoneNumber)
         {
-            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.PhoneNumber==phoneNumber);
+            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.PhoneNumber==phoneNumber, CancellationToken.None);
         }
 
        /// <summary>
@@ -73,9 +75,9 @@ namespace Corbae.BLL.Implementations
        /// <exception cref="NoUserWithThatIdException"></exception>
        /// <exception cref="EmailAlreadyInUseException"></exception>
        /// <exception cref="PhoneNumberAlreadyInUseException"></exception>
-        public async Task Edit(UserToEdit userData, Guid id)
+        public async Task Edit(UserToCreate userData, Guid id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
             if (user == null)
             {
                 throw new NoUserWithThatIdException(id);
@@ -94,10 +96,9 @@ namespace Corbae.BLL.Implementations
             }
             user = _mapper.Map<UserDB>(userData);
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync(CancellationToken.None);
 
         }
-
 
         /// <summary>
         /// Создать пользователя
@@ -105,7 +106,7 @@ namespace Corbae.BLL.Implementations
         /// <param name="user_"></param>
         /// <returns>Id пользователя</returns>
         /// <exception cref="EmailAlreadyInUseException"></exception>
-        public async Task<Guid> Create(User user_)
+        public async Task<Guid> Create(UserToCreate user_)
         {
             var user = _mapper.Map<UserDB>(user_);
 
@@ -126,8 +127,9 @@ namespace Corbae.BLL.Implementations
                 throw new PhoneNumberAlreadyInUseException(user.PhoneNumber);
             }
 
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.Users.AddAsync(user, CancellationToken.None);
+            await _cartService.Create(user.UserID);
+            await _dbContext.SaveChangesAsync(CancellationToken.None);
 
             return user.UserID;
         }
@@ -140,7 +142,7 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NoUserWithThatIdException"></exception>
         public async Task AddAdminCapability(Guid id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            var user = await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
 
             if (user == null)
             {
@@ -156,9 +158,9 @@ namespace Corbae.BLL.Implementations
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <exception cref="NoUserWithThatIdException"></exception>
-        public async Task AddMoney(Guid id, int amount)
+        public async Task AddMoney(Guid id, uint amount)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
             if (user == null)
             {
                 throw new NoUserWithThatIdException(id);
@@ -174,15 +176,15 @@ namespace Corbae.BLL.Implementations
         /// <param name="amount"></param>
         /// <exception cref="NoUserWithThatIdException"></exception>
         /// <exception cref="NotEnoughMoneyException"></exception>
-        public async Task ReduceMoney(Guid id, int amount)
+        public async Task ReduceMoney(Guid id, uint amount)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
             if (user == null)
             {
                 throw new NoUserWithThatIdException(id);
             }
 
-            if(user.Money<amount)
+            if (user.Money < amount)
             {
                 throw new NotEnoughMoneyException();
             }
@@ -198,7 +200,8 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NoUserWithThatIdException"></exception>
         public async Task Delete(Guid id)
         {
-            var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync();
+            var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync(CancellationToken.None);
+            
             if (res == 0)
             {
                 throw new NoUserWithThatIdException(id);

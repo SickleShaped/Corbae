@@ -21,5 +21,10 @@ namespace Corbae.DAL.Models.DTO
        /// ID пользователя, оставившего этот комментарий
        /// </summary>
         public Guid UserID { get; set; }
+
+        /// <summary>
+        /// ID товара, под которым оставлен этот комментарий
+        /// </summary>
+        public Guid ProductID { get; set; }
     }
 }

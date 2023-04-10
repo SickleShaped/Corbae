@@ -18,8 +18,8 @@ namespace Corbae.Configure
         {
             builder.ToTable("Carts");
 
-            builder.HasKey(c => c.CartID);
-            builder.HasIndex(c => c.CartID).IsUnique();
+            builder.HasKey(c => c.UserID);
+            builder.HasIndex(c => c.UserID);
 
             builder
                    .HasMany(s => s.Products)
@@ -33,7 +33,7 @@ namespace Corbae.Configure
                 cp => cp
                     .HasOne(cp => cp.Cart)
                     .WithMany(c => c.CartProducts)
-                    .HasForeignKey(cp => cp.CartID)
+                    .HasForeignKey(cp => cp.UserID)
                     .OnDelete(DeleteBehavior.Cascade), 
                 cp =>
                 {

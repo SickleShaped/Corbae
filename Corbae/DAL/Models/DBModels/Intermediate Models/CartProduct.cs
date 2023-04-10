@@ -22,12 +22,16 @@ namespace Corbae.Models
         /// <summary>
         /// ID Корзины
         /// </summary>
-        public Guid CartID { get; set; }
+        public Guid UserID { get; set; }
 
-        [JsonIgnore]
+        /// <summary>
+        /// Товар
+        /// </summary>
         public ProductDB? Product { get; set; }
 
-        [JsonIgnore]
+        /// <summary>
+        /// Корзина
+        /// </summary>
         public CartDB? Cart { get; set; }
         
 

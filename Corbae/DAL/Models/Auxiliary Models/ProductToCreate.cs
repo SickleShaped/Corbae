@@ -1,19 +1,10 @@
-﻿using Corbae.DAL.Models.DBModels;
-using Corbae.Models;
-using System.Text.Json.Serialization;
-
-namespace Corbae.DAL.Models.DTO
+﻿namespace Corbae.DAL.Models.Auxiliary_Models
 {
     /// <summary>
-    /// Класс, содержащий поля товара
+    /// Класс, содержащий поля товара для создания и изменения товара
     /// </summary>
-    public class Product
+    public class ProductToCreate
     {
-        /// <summary>
-        /// Id товара
-        /// </summary>
-        public Guid ProductID { get; set; }
-
         /// <summary>
         /// Название товара
         /// </summary>
@@ -38,10 +29,5 @@ namespace Corbae.DAL.Models.DTO
         /// Категория товара
         /// </summary>
         public string? Category { get; set; }
-
-        /// <summary>
-        /// Id пользователя, добавившего этот товар
-        /// </summary>
-        public Guid UserID { get; set; }
     }
 }

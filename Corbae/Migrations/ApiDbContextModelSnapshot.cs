@@ -24,13 +24,12 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.DAL.Models.DBModels.CartDB", b =>
                 {
-                    b.Property<Guid>("CartID")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("uuid");
 
-                    b.HasKey("CartID");
+                    b.HasKey("UserID");
 
-                    b.HasIndex("CartID")
-                        .IsUnique();
+                    b.HasIndex("UserID");
 
                     b.ToTable("Carts", (string)null);
                 });
@@ -39,6 +38,9 @@ namespace Corbae.Migrations
                 {
                     b.Property<Guid>("CommentID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductID")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Text")
@@ -97,7 +99,6 @@ namespace Corbae.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Category")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -178,9 +179,6 @@ namespace Corbae.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
-                    b.Property<decimal>("Rating")
-                        .HasColumnType("numeric(20,0)");
-
                     b.HasKey("UserID");
 
                     b.HasIndex("UserID")
@@ -195,20 +193,20 @@ namespace Corbae.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CartID")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ProductID")
                         .HasColumnType("uuid");
 
-                    b.HasKey("CartProductID");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("CartID");
+                    b.HasKey("CartProductID");
 
                     b.HasIndex("CartProductID")
                         .IsUnique();
 
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("CartProducts", (string)null);
                 });
@@ -244,7 +242,7 @@ namespace Corbae.Migrations
                 {
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
                         .WithOne("Cart")
-                        .HasForeignKey("Corbae.DAL.Models.DBModels.CartDB", "CartID")
+                        .HasForeignKey("Corbae.DAL.Models.DBModels.CartDB", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -267,7 +265,7 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -286,15 +284,15 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.Models.CartProduct", b =>
                 {
-                    b.HasOne("Corbae.DAL.Models.DBModels.CartDB", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Corbae.DAL.Models.DBModels.ProductDB", "Product")
                         .WithMany("CartProducts")
                         .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Corbae.DAL.Models.DBModels.CartDB", "Cart")
+                        .WithMany("CartProducts")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -308,13 +306,13 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.DAL.Models.DBModels.OrderDB", "Order")
                         .WithMany("OrderProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Corbae.DAL.Models.DBModels.ProductDB", "Product")
                         .WithMany("OrderProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", null)

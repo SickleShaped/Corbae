@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Corbae.DAL.Models.DBModels;
 using AutoMapper;
 using Corbae.DAL.Models.DTO;
+using Corbae.DAL.Models.Auxiliary_Models;
 
 namespace Corbae.Controllers
 {
@@ -29,7 +30,7 @@ namespace Corbae.Controllers
         /// <summary>
         /// Get-запрос на получение всех пользователей
         /// </summary>
-        /// <returns>List<User></User></returns>
+        /// <returns>Task<IActionResult></User></returns>
         [HttpGet("GetAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -41,7 +42,7 @@ namespace Corbae.Controllers
         /// Get-запрос на получение пользователя по ID
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Json(User?)</returns>
+        /// <returns>Task<IActionResult></returns>
         [HttpGet("GetUserByID")]
         public async Task<IActionResult> GetUserByID(Guid userId)
         {
@@ -53,33 +54,58 @@ namespace Corbae.Controllers
         /// Post-Запрос на создание пользователя
         /// </summary>
         /// <param name="user"></param>
-        /// <returns>Guid</returns>
+        /// <returns>Task<Guid></returns>
         [HttpPost("CreateUser")] //POST: /createuser
-        public async Task<Guid> CreateUser(User user)
+        public async Task<Guid> CreateUser(UserToCreate user)
         {
             var newUserId = await _userService.Create(user);
             return newUserId;
         }
 
+        /// <summary>
+        /// Изменить пользователя
+        /// </summary>
+        /// <param name="userData"></param>
+        /// <param name="id"></param>
+        /// <returns>Task</returns>
+        [HttpPut("EditUser")]
+        public async Task Edit(UserToCreate userData, Guid id)
+        {
+            await _userService.Edit(userData, id);
+        }
 
         /// <summary>
         /// Put-Запрос на выдавание пользователю полномочий админа
         /// </summary>
         /// <param name="id"></param>
+        /// <returns>Task</returns>
         [HttpPut("AddAdminCapability")]
-        public void AddAdminCapability(Guid id)
+        public async Task AddAdminCapability(Guid id)
         {
-            _userService.AddAdminCapability(id);
+            await _userService.AddAdminCapability(id);
+        }
+
+        /// <summary>
+        /// Добавить деньги на счет пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="almount"></param>
+        /// <returns>Task</returns>
+        [HttpPut("AddMoney")]
+        public async Task Add(Guid id, uint almount)
+        {
+            await _userService.AddMoney(id, almount);
         }
 
         /// <summary>
         /// Delete-запрос удаления пользователя по его ID
         /// </summary>
         /// <param name="id"></param>
+        /// <returns>Task</returns>
         [HttpDelete("DeleteUser")]
-        public void DeleteUser(Guid id)
+        public async Task DeleteUser(Guid id)
         {
-            _userService.Delete(id);
+            await _userService.Delete(id);
         }
     }
 

@@ -10,18 +10,13 @@ namespace Corbae.Models
     public class Cart
     {
         /// <summary>
-        /// Id Корзины
-        /// </summary>
-        public Guid CartID { get; set; }
-
-        /// <summary>
         /// Пользователь, к которому принадлежит корзина
         /// </summary>
         public Guid UserID { get; set; }
 
         /// <summary>
         /// Продукты, содержащиеся в корзине
-        /// </summary>]
+        /// </summary>
         public List<ProductDB> Products { get; set; } = new List<ProductDB>();
     }
 }

@@ -14,10 +14,19 @@ namespace Corbae.Mappings
         public AppMappingProfile()
         {
             CreateMap<UserDB, User>().ReverseMap();
-
-            CreateMap<UserDB, UserToEdit>().ReverseMap();
+            CreateMap<UserDB, UserToCreate>().ReverseMap();
+            CreateMap<User, UserToCreate>().ReverseMap();
 
             CreateMap<ProductDB, Product>().ReverseMap();
+            CreateMap<Product, ProductToCreate>().ReverseMap();
+
+            CreateMap<OrderDB, Order>().ReverseMap();
+
+            CreateMap<Comment, CommentDB>().ReverseMap();
+
+            CreateMap<Cart, CartDB>().ReverseMap();
+
+            
         }
     }
 }

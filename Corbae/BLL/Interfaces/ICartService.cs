@@ -1,5 +1,7 @@
 ﻿
 using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DTO;
+using Corbae.Models;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -9,26 +11,35 @@ namespace Corbae.BLL.Interfaces
     public interface ICartService
     {
         /// <summary>
-        /// Получить корзину по id юзера
+        /// Получить корзину по ID пользователя
         /// </summary>
-        /// <param name="userID">id пользователя</param>
-        /// <returns>Cart</returns>
-        //Task<Cart?> GetCartByUserID(string userID);
+        /// <param name="userID"></param>
+        /// <returns>Cart?</returns>
+        Task<List<CartProduct>> GetCartProductsByUserId(Guid userID);
+
+        /// <summary>
+        /// Создать корзину
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns>Cart?</returns>
+        Task Create(Guid userID);
 
         /// <summary>
         /// Добавить товар в корзину
         /// </summary>
-        /// <param name="cart">Корзина</param>
-        /// <param name="product">Товар</param>
-        /// <returns>Cart</returns>
-        //Task<Cart?> AddToCart(Cart cart, Product product);
+        /// <param name="productID"></param>
+        /// <param name="userID"></param>
+        /// <returns>Cart?</returns>
+        Task<List<CartProduct>> AddProductToCart(Guid productID, Guid userID);
 
         /// <summary>
         /// Удалить товар из корзины
         /// </summary>
-        /// <param name="cart">Корзина</param>
-        /// <param name="product">Товар</param>
-        /// <returns>Cart</returns>
-        //Task<Cart?> RemoveFromCart(Cart cart, Product product);
+        /// <param name="productID"></param>
+        /// <param name="UserID"></param>
+        /// <returns>Cart?</returns>
+        Task<List<CartProduct>> RemoveProductFromCart(Guid productID, Guid UserID);
+
+
     }
 }

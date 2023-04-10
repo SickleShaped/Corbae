@@ -56,11 +56,6 @@ namespace Corbae.DAL.Models.DBModels
         public decimal Money { get; set; }
 
         /// <summary>
-        /// Рейтинг пользователя
-        /// </summary>
-        public ulong Rating { get; set; }
-
-        /// <summary>
         /// Является ли пользователь Админом
         /// </summary>
         public bool IsAdmin { get; set; }

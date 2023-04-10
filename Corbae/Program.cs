@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 builder.Services.AddDependencyInjection();
+builder.Services.AddJwt();
 
 var app = builder.Build();
 

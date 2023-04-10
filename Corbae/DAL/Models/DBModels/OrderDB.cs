@@ -26,14 +26,14 @@ namespace Corbae.DAL.Models.DBModels
         public DateTime? CreationDate { get; set; }
 
         /// <summary>
-        /// Дата Доставки заказа
-        /// </summary>
-        public DateTime? DeliveryDate { get; set; }
-
-        /// <summary>
         /// Место доставки заказа
         /// </summary>
         public string DeliveryPlace { get; set; } = null!;
+
+        /// <summary>
+        /// Статус заказа
+        /// </summary>
+        public string Status { get; set; } = null!;
 
         /// <summary>
         /// Пользователь, совершивший заказ

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Corbae.Migrations
 {
     /// <inheritdoc />
-    public partial class Mapper : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,7 +24,6 @@ namespace Corbae.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Money = table.Column<decimal>(type: "numeric", nullable: false),
-                    Rating = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     IsAdmin = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     IsSeller = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     IsCustomer = table.Column<bool>(type: "boolean", nullable: false)
@@ -38,14 +37,14 @@ namespace Corbae.Migrations
                 name: "Carts",
                 columns: table => new
                 {
-                    CartID = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carts", x => x.CartID);
+                    table.PrimaryKey("PK_Carts", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_Carts_Users_CartID",
-                        column: x => x.CartID,
+                        name: "FK_Carts_Users_UserID",
+                        column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
@@ -57,7 +56,8 @@ namespace Corbae.Migrations
                 {
                     CommentID = table.Column<Guid>(type: "uuid", nullable: false),
                     Text = table.Column<string>(type: "character varying(1023)", maxLength: 1023, nullable: true),
-                    UserID = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserID = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@ namespace Corbae.Migrations
                     OrderID = table.Column<Guid>(type: "uuid", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DeliveryDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DeliveryPlace = table.Column<string>(type: "text", nullable: false),
                     UserID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -89,7 +89,7 @@ namespace Corbae.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +101,7 @@ namespace Corbae.Migrations
                     Description = table.Column<string>(type: "character varying(2047)", maxLength: 2047, nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     QuantityInStock = table.Column<long>(type: "bigint", nullable: false),
-                    Category = table.Column<string>(type: "text", nullable: false),
+                    Category = table.Column<string>(type: "text", nullable: true),
                     UserID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -121,16 +121,16 @@ namespace Corbae.Migrations
                 {
                     CartProductID = table.Column<Guid>(type: "uuid", nullable: false),
                     ProductID = table.Column<Guid>(type: "uuid", nullable: false),
-                    CartID = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CartProducts", x => x.CartProductID);
                     table.ForeignKey(
-                        name: "FK_CartProducts_Carts_CartID",
-                        column: x => x.CartID,
+                        name: "FK_CartProducts_Carts_UserID",
+                        column: x => x.UserID,
                         principalTable: "Carts",
-                        principalColumn: "CartID",
+                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CartProducts_Products_ProductID",
@@ -157,24 +157,19 @@ namespace Corbae.Migrations
                         column: x => x.ProductID,
                         principalTable: "Orders",
                         principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OrderProducts_Products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OrderProducts_Users_UserDBUserID",
                         column: x => x.UserDBUserID,
                         principalTable: "Users",
                         principalColumn: "UserID");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartProducts_CartID",
-                table: "CartProducts",
-                column: "CartID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartProducts_CartProductID",
@@ -188,10 +183,14 @@ namespace Corbae.Migrations
                 column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_CartID",
+                name: "IX_CartProducts_UserID",
+                table: "CartProducts",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carts_UserID",
                 table: "Carts",
-                column: "CartID",
-                unique: true);
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CommentID",

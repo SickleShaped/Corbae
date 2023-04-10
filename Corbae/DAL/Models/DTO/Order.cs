@@ -25,9 +25,9 @@ namespace Corbae.DAL.Models.DTO
         public DateTime? CreationDate { get; set; }
 
         /// <summary>
-        /// Дата Доставки заказа
+        /// Статус заказа
         /// </summary>
-        public DateTime DeliveryDate { get; set; }
+        public string Status { get; set; } = null!;
 
         /// <summary>
         /// Место доставки заказа

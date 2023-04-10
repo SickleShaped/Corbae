@@ -22,6 +22,8 @@ namespace Corbae.Extensions
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICommentService, CommentService>();
+           
+
             return services;
         }
     }

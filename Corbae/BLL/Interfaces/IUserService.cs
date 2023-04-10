@@ -43,7 +43,7 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="user">ппользователь</param>
         /// <returns>Guid</returns>
-        Task<Guid> Create(User user);
+        Task<Guid> Create(UserToCreate user);
 
         /// <summary>
         /// Изменить пользователя
@@ -51,9 +51,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="userData">Измененные данные пользователя</param>
         /// <param name="user">пользователь</param>
         /// <returns>User?</returns>
-        Task Edit(UserToEdit userData, Guid id);
-
-
+        Task Edit(UserToCreate userData, Guid id);
 
         /// <summary>
         /// Дать пользователю полномочия админа
@@ -68,7 +66,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <returns>void</returns>
-        Task AddMoney(Guid id, int amount);
+        Task AddMoney(Guid id, uint amount);
 
         /// <summary>
         /// Вычесть деньги с баланса пользователя
@@ -76,7 +74,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="id"></param>
         /// <param name="amount"></param>
         /// <returns>void</returns>
-        Task ReduceMoney(Guid id, int amount);
+        Task ReduceMoney(Guid id, uint amount);
 
         /// <summary>
         /// Удалить пользователя
