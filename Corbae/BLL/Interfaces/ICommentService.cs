@@ -31,7 +31,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="userID"></param>
         /// <param name="productID"></param>
         /// <returns>Comment?</returns>
-        Task<Comment?> LeaveAComment(string text, Guid userID, Guid productID);
+        Task LeaveAComment(string text, Guid userID, Guid productID);
 
         /// <summary>
         /// Изменить комментарий

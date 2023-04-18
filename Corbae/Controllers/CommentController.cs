@@ -49,9 +49,9 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <returns>Task<Comment?></returns>
         [HttpPost("LeaveAComment")]
-        public async Task<Comment?> LeaveAComment(string text, Guid userID, Guid productID)
+        public async Task LeaveAComment(string text, Guid userID, Guid productID)
         {
-            return await _commentService.LeaveAComment(text, userID, productID);
+            await _commentService.LeaveAComment(text, userID, productID);
         }
 
         /// <summary>

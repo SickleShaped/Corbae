@@ -35,7 +35,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="product"> товар </param>
         /// <param name="user"> пользователь </param>
         /// <returns>Product</returns>
-        Task<Product?> Create(ProductToCreate product, Guid userid);
+        Task Create(ProductToCreate product, Guid userid);
 
         /// <summary>
         /// Изменить заказ

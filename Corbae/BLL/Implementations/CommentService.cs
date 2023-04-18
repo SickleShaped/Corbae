@@ -50,7 +50,7 @@ namespace Corbae.BLL.Implementations
         /// Оставить комментарий
         /// </summary>
         /// <returns>Comment?</returns>
-        public async Task<Comment?> LeaveAComment(string text, Guid userID, Guid productID)
+        public async Task LeaveAComment(string text, Guid userID, Guid productID)
         {
             Comment comment = new Comment();
             comment.Text = text;
@@ -60,8 +60,6 @@ namespace Corbae.BLL.Implementations
             var commentDB = _mapper.Map<CommentDB>(comment); 
             await _dbContext.Comments.AddAsync(commentDB);
             await _dbContext.SaveChangesAsync( );
-
-            return comment;
         }
 
         /// <summary>

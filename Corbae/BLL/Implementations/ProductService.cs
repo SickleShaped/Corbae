@@ -64,14 +64,12 @@ namespace Corbae.BLL.Implementations
         /// <param name="product_"> товар </param>
         /// <param name="user"> пользователь </param>
         /// <returns>Product</returns>
-        public async Task<Product?> Create(ProductToCreate productDto, Guid userid)
+        public async Task Create(ProductToCreate productDto, Guid userid)
         {
             var product = _mapper.Map<ProductDB>(productDto);
             product.UserID = userid; 
             await _dbContext.Products.AddAsync(product);
             await _dbContext.SaveChangesAsync();
-            var productToReturn = _mapper.Map<Product>(product);
-            return productToReturn;
         }
 
         /// <summary>
