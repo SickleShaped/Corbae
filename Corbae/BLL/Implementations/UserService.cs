@@ -88,7 +88,7 @@ namespace Corbae.BLL.Implementations
 
             user = _mapper.Map<UserDB>(userData);
 
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            await _dbContext.SaveChangesAsync();
 
         }
 
@@ -98,9 +98,9 @@ namespace Corbae.BLL.Implementations
         /// <param name="user_"></param>
         /// <returns>Id пользователя</returns>
         /// <exception cref="EmailAlreadyInUseException"></exception>
-        public async Task<Guid> Create(UserToCreate user_)
+        public async Task<Guid> Create(UserToCreate userDto)
         {
-            var user = _mapper.Map<UserDB>(user_);
+            var user = _mapper.Map<UserDB>(userDto);
 
             user.UserID = Guid.NewGuid();
             user.CreationDate = DateTime.UtcNow;
@@ -115,7 +115,7 @@ namespace Corbae.BLL.Implementations
 
             await _dbContext.Users.AddAsync(user );
             await _cartService.Create(user.UserID);
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            await _dbContext.SaveChangesAsync( );
 
             return user.UserID;
         }

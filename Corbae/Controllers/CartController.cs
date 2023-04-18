@@ -49,10 +49,9 @@ namespace Corbae.Controllers
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         [HttpPost("AddProductToCart")]
-        public async Task<List<CartProduct>> AddProductToCart(Guid productID, Guid userID)
+        public async Task AddProductToCart(Guid productID, Guid userID)
         {
-            var cartproducts = await _cartService.AddProductToCart(productID, userID);
-            return cartproducts;
+            await _cartService.AddProductToCart(productID, userID);
         }
 
         /// <summary>
@@ -62,10 +61,9 @@ namespace Corbae.Controllers
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
         [HttpDelete("RemoveProductFromCart")]
-        public async Task<List<CartProduct>> RemoveProductFromCart(Guid productID, Guid userID)
+        public async Task RemoveProductFromCart(Guid productID, Guid userID)
         {
-            var cartproducts = await _cartService.RemoveProductFromCart(productID, userID);
-            return cartproducts;
+            await _cartService.RemoveProductFromCart(productID, userID);
         }
 
 

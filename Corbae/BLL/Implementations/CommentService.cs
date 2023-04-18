@@ -57,9 +57,9 @@ namespace Corbae.BLL.Implementations
             comment.UserID = userID;
             comment.ProductID = productID;
 
-            var _comment = _mapper.Map<CommentDB>(comment); 
-            await _dbContext.Comments.AddAsync(_comment );
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            var commentDB = _mapper.Map<CommentDB>(comment); 
+            await _dbContext.Comments.AddAsync(commentDB);
+            await _dbContext.SaveChangesAsync( );
 
             return comment;
         }
@@ -74,7 +74,7 @@ namespace Corbae.BLL.Implementations
             var comment = await _dbContext.Comments.FirstOrDefaultAsync(u => u.CommentID == commentID );
             if (comment == null) throw new CommentNotFoundException();
             comment.Text = text;
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            await _dbContext.SaveChangesAsync( );
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task DeleteComment(Guid commentID)
         {
-            var res = await _dbContext.Comments.Where(u => u.CommentID == commentID).ExecuteDeleteAsync(CancellationToken.None);
+            var res = await _dbContext.Comments.Where(u => u.CommentID == commentID).ExecuteDeleteAsync( );
             if (res == 0) throw new DeleteCommentErrorException();
         }
 
@@ -95,7 +95,7 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task DeleteAllCommentsByUser(Guid userID)
         {
-            var res = await _dbContext.Comments.Where(u => u.UserID == userID).ExecuteDeleteAsync(CancellationToken.None);
+            var res = await _dbContext.Comments.Where(u => u.UserID == userID).ExecuteDeleteAsync( );
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Corbae.BLL.Implementations
         /// <returns></returns>
         public async Task DeleteAllCommentsByProduct(Guid productID)
         {
-            var res = await _dbContext.Comments.Where(u => u.ProductID == productID).ExecuteDeleteAsync(CancellationToken.None);
+            var res = await _dbContext.Comments.Where(u => u.ProductID == productID).ExecuteDeleteAsync( );
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Corbae.BLL.Implementations
             cart.UserID=userID;
 
             await _dbContext.Carts.AddAsync(cart );
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            await _dbContext.SaveChangesAsync( );
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task<List<CartProduct>></returns>
         public async Task RemoveProductFromCart(Guid cartProductId, Guid userID)
         {
-            var res = await _dbContext.CartProducts.Where(u => u.CartProductID == cartProductId).ExecuteDeleteAsync(CancellationToken.None);
+            var res = await _dbContext.CartProducts.Where(u => u.CartProductID == cartProductId).ExecuteDeleteAsync( );
         }
 
         /// <summary>
