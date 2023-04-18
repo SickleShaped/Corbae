@@ -78,11 +78,7 @@ namespace Corbae.BLL.Implementations
         {
             List<Product> products = new List<Product>();
             User user = await _userService.GetById(userID);
-            if(user == null)
-            {
-                throw new NoUserWithThatIdException(userID);
-            }
-
+            if(user == null) throw new NoUserWithThatIdException(userID);
             decimal price = 0;
 
             foreach(var productID in productsID)
@@ -95,15 +91,8 @@ namespace Corbae.BLL.Implementations
                 }
                 
             }
-
-            if(user.Money < price)
-            {
-                throw new NoEnoughMoneyException(user.Money, price);
-            }
+            if(user.Money < price) throw new NoEnoughMoneyException(user.Money, price);
             
-
-
-
             //заглушка
             var p = new Order();
             return  p;

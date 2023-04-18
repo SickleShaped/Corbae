@@ -59,12 +59,12 @@ namespace Corbae.BLL.Implementations
         /// <returns></returns>
         public async Task<User?> GetByEmail(string email)
         {
-            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email, CancellationToken.None);
+            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User?> GetByPhoneNumber(string phoneNumber)
         {
-            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.PhoneNumber==phoneNumber, CancellationToken.None);
+            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.PhoneNumber==phoneNumber);
         }
 
        /// <summary>
@@ -77,23 +77,15 @@ namespace Corbae.BLL.Implementations
        /// <exception cref="PhoneNumberAlreadyInUseException"></exception>
         public async Task Edit(UserToCreate userData, Guid id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
-            if (user == null)
-            {
-                throw new NoUserWithThatIdException(id);
-            }
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            if (user == null) throw new NoUserWithThatIdException(id);
 
             var emailUser=GetByEmail(userData.Email);
-            if(emailUser != null)
-            {
-                throw new EmailAlreadyInUseException(userData.Email);
-            }
+            if(emailUser != null) throw new EmailAlreadyInUseException(userData.Email);
 
             var phoneNumberUser=GetByPhoneNumber(userData.PhoneNumber);
-            if(phoneNumberUser != null)
-            {
-                throw new PhoneNumberAlreadyInUseException(userData.PhoneNumber);
-            }
+            if(phoneNumberUser != null) throw new PhoneNumberAlreadyInUseException(userData.PhoneNumber);
+
             user = _mapper.Map<UserDB>(userData);
 
             await _dbContext.SaveChangesAsync(CancellationToken.None);
@@ -116,18 +108,12 @@ namespace Corbae.BLL.Implementations
             user.Password = hash;
 
             var emailuser = await GetByEmail(user.Email);
-            if (emailuser != null)
-            {
-                throw new EmailAlreadyInUseException(user.Email);
-            }
+            if (emailuser != null) throw new EmailAlreadyInUseException(user.Email);
 
             var phoneNumberUser = await GetByPhoneNumber(user.PhoneNumber);
-            if (phoneNumberUser != null)
-            {
-                throw new PhoneNumberAlreadyInUseException(user.PhoneNumber);
-            }
+            if (phoneNumberUser != null) throw new PhoneNumberAlreadyInUseException(user.PhoneNumber);
 
-            await _dbContext.Users.AddAsync(user, CancellationToken.None);
+            await _dbContext.Users.AddAsync(user );
             await _cartService.Create(user.UserID);
             await _dbContext.SaveChangesAsync(CancellationToken.None);
 
@@ -142,12 +128,8 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NoUserWithThatIdException"></exception>
         public async Task AddAdminCapability(Guid id)
         {
-            var user = await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
-
-            if (user == null)
-            {
-                throw new NoUserWithThatIdException(id);
-            }
+            var user = await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id);
+            if (user == null) throw new NoUserWithThatIdException(id);
             user.IsAdmin = true;
             await _dbContext.SaveChangesAsync();
         }
@@ -160,11 +142,8 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NoUserWithThatIdException"></exception>
         public async Task AddMoney(Guid id, uint amount)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
-            if (user == null)
-            {
-                throw new NoUserWithThatIdException(id);
-            }
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            if (user == null) throw new NoUserWithThatIdException(id);
             user.Money += amount;
             await _dbContext.SaveChangesAsync();
         }
@@ -178,16 +157,9 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NotEnoughMoneyException"></exception>
         public async Task ReduceMoney(Guid id, uint amount)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id, CancellationToken.None);
-            if (user == null)
-            {
-                throw new NoUserWithThatIdException(id);
-            }
-
-            if (user.Money < amount)
-            {
-                throw new NotEnoughMoneyException();
-            }
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
+            if (user == null) throw new NoUserWithThatIdException(id);
+            if (user.Money < amount) throw new NotEnoughMoneyException();
             user.Money -= amount;
             await _dbContext.SaveChangesAsync();
         }
@@ -200,12 +172,8 @@ namespace Corbae.BLL.Implementations
         /// <exception cref="NoUserWithThatIdException"></exception>
         public async Task Delete(Guid id)
         {
-            var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync(CancellationToken.None);
-            
-            if (res == 0)
-            {
-                throw new NoUserWithThatIdException(id);
-            }
+            var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync();
+            if (res == 0) throw new NoUserWithThatIdException(id);
         }
     }
 }

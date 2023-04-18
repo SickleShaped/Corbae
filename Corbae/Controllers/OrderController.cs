@@ -13,12 +13,10 @@ namespace Corbae.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
-        private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IMapper mapper)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
-            _mapper = mapper;
         }
 
         /// <summary>

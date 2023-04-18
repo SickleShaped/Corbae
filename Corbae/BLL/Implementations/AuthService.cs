@@ -35,21 +35,10 @@ namespace Corbae.BLL.Implementations
         public async Task<string> Login(string email, string password)
         {
             var user_ = await _userService.GetByEmail(email);
-            if (user_ == null)
-            {
-                throw new NoUserWithThatEmailException(email);
-            }
-
-            if(BCrypt.Net.BCrypt.EnhancedVerify(password, user_.Password) == false)
-            {
-                throw new WrongPasswordException();
-            }
-
+            if (user_ == null) throw new NoUserWithThatEmailException(email);
+            if(BCrypt.Net.BCrypt.EnhancedVerify(password, user_.Password) == false) throw new WrongPasswordException();
             var jwt = await JwtIssue(user_);
-
             return jwt;
-
-
         }
 
         /// <summary>

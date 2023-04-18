@@ -12,9 +12,9 @@ namespace Corbae.Extensions
     /// <summary>
     /// Класс, предорставляющий расширение с внедрением зависимостей
     /// </summary>
-    public static class DependencyInjectionExtensions
+    public static class AddDIServicesExtension
     {
-        public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
+        public static IServiceCollection AddDIServices(this IServiceCollection services)
         {
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IUserService, UserService>();

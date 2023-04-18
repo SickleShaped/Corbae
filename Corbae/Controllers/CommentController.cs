@@ -13,12 +13,10 @@ namespace Corbae.Controllers
     public class CommentController:Controller
     {
         private readonly ICommentService _commentService;
-        private readonly IMapper _mapper;
 
-        public CommentController(ICommentService commentService, IMapper mapper)
+        public CommentController(ICommentService commentService)
         {
             _commentService = commentService;
-            _mapper = mapper;
         }
 
         /// <summary>

@@ -12,12 +12,10 @@ namespace Corbae.Controllers
     public class AuthController:Controller
     {
         private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, IMapper mapper)
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _mapper = mapper;
         }
 
         /// <summary>

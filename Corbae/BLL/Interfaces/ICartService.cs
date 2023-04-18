@@ -30,7 +30,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="productID"></param>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        Task<List<CartProduct>> AddProductToCart(Guid productID, Guid userID);
+        Task AddProductToCart(Guid productID, Guid userID);
 
         /// <summary>
         /// Удалить товар из корзины
@@ -38,7 +38,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="productID"></param>
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
-        Task<List<CartProduct>> RemoveProductFromCart(Guid productID, Guid UserID);
+        Task RemoveProductFromCart(Guid productID, Guid UserID);
 
 
     }

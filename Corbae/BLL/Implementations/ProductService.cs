@@ -67,12 +67,9 @@ namespace Corbae.BLL.Implementations
         public async Task<Product?> Create(ProductToCreate product_, Guid userid)
         {
             var product = _mapper.Map<ProductDB>(product_);
-
             product.UserID = userid; 
-
-            await _dbContext.Products.AddAsync(product, CancellationToken.None);
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
-
+            await _dbContext.Products.AddAsync(product);
+            await _dbContext.SaveChangesAsync();
             var _product = _mapper.Map<Product>(product);
             return _product;
         }
@@ -84,14 +81,10 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task Edit(ProductToCreate product, Guid productID)
         {
-            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID, CancellationToken.None);
-            if (product_ == null)
-            {
-                throw new NoProductWithThatIdException(productID);
-            }
+            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID);
+            if (product_ == null) throw new NoProductWithThatIdException(productID);
             product_ = _mapper.Map<ProductDB>(product);
-
-            await _dbContext.SaveChangesAsync(CancellationToken.None);
+            await _dbContext.SaveChangesAsync();
         }
 
 
@@ -103,11 +96,8 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task EditQuantityInStock(Guid productID, uint quantityInStock)
         {
-            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID, CancellationToken.None);
-            if (product_ == null)
-            {
-                throw new NoProductWithThatIdException(productID);
-            }
+            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID);
+            if (product_ == null) throw new NoProductWithThatIdException(productID);
             product_.QuantityInStock = quantityInStock;
             await _dbContext.SaveChangesAsync(CancellationToken.None);
         }
@@ -119,11 +109,8 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task ReduceQuantityInStockBy(Guid productID, uint count)
         {
-            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID, CancellationToken.None);
-            if (product_ == null)
-            {
-                throw new NoProductWithThatIdException(productID);
-            }
+            var product_ = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID);
+            if (product_ == null) throw new NoProductWithThatIdException(productID);
             product_.QuantityInStock -= count;
             await _dbContext.SaveChangesAsync(CancellationToken.None);
         }
@@ -136,11 +123,8 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task Delete(Guid productID)
         {
-            var res = await _dbContext.Products.Where(u => u.ProductID == productID).ExecuteDeleteAsync(CancellationToken.None);
-            if (res == 0)
-            {
-                throw new NoProductWithThatIdException(productID);
-            }
+            var res = await _dbContext.Products.Where(u => u.ProductID == productID).ExecuteDeleteAsync();
+            if (res == 0) throw new NoProductWithThatIdException(productID);
         }
 
         /// <summary>

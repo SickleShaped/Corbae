@@ -14,12 +14,10 @@ namespace Corbae.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        private readonly IMapper _mapper;
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService)
         {
             _productService = productService;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -62,9 +60,9 @@ namespace Corbae.Controllers
         /// <param name="userid"></param>
         /// <returns>Task<Product?></returns>
         [HttpPost("Create")]
-        public async Task<Product?> Create(ProductToCreate product_, Guid userid)
+        public async Task<Product?> Create(ProductToCreate productDto, Guid userid)
         {
-            var product = await _productService.Create(product_, userid);
+            var product = await _productService.Create(productDto, userid);
             return product;
         }
 

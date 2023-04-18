@@ -18,7 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
-builder.Services.AddDependencyInjection();
+builder.Services.AddDIServices();
 builder.Services.AddJwt();
 
 var app = builder.Build();

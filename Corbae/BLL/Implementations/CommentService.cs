@@ -58,7 +58,7 @@ namespace Corbae.BLL.Implementations
             comment.ProductID = productID;
 
             var _comment = _mapper.Map<CommentDB>(comment); 
-            await _dbContext.Comments.AddAsync(_comment, CancellationToken.None);
+            await _dbContext.Comments.AddAsync(_comment );
             await _dbContext.SaveChangesAsync(CancellationToken.None);
 
             return comment;
@@ -71,11 +71,8 @@ namespace Corbae.BLL.Implementations
         /// <returns>Task</returns>
         public async Task EditComment(Guid commentID, string text)
         {
-            var comment = await _dbContext.Comments.FirstOrDefaultAsync(u => u.CommentID == commentID, CancellationToken.None);
-            if (comment == null)
-            {
-                throw new CommentNotFoundException();
-            }
+            var comment = await _dbContext.Comments.FirstOrDefaultAsync(u => u.CommentID == commentID );
+            if (comment == null) throw new CommentNotFoundException();
             comment.Text = text;
             await _dbContext.SaveChangesAsync(CancellationToken.None);
         }
@@ -88,10 +85,7 @@ namespace Corbae.BLL.Implementations
         public async Task DeleteComment(Guid commentID)
         {
             var res = await _dbContext.Comments.Where(u => u.CommentID == commentID).ExecuteDeleteAsync(CancellationToken.None);
-            if (res == 0)
-            {
-                throw new DeleteCommentErrorException();
-            }
+            if (res == 0) throw new DeleteCommentErrorException();
         }
 
         /// <summary>
