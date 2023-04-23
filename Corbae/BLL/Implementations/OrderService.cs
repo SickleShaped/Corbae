@@ -154,6 +154,8 @@ namespace Corbae.BLL.Implementations
             user.Money -= order.Price;
             order.Status = "paid";
 
+            await _dbContext.SaveChangesAsync();
+
 
 
         }
