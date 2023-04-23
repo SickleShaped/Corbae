@@ -38,7 +38,7 @@ namespace Corbae.BLL.Implementations
         /// <returns>List<User></USER></returns>
         public async Task<List<User>> GetAll()
         {
-            var UsersDB = await _dbContext.Users.Include(u => u.Orders).AsNoTracking().ProjectTo<User>(_mapper.ConfigurationProvider).ToListAsync();
+            var UsersDB = await _dbContext.Users.AsNoTracking().ProjectTo<User>(_mapper.ConfigurationProvider).ToListAsync();
             return UsersDB;
         }
 
@@ -49,7 +49,7 @@ namespace Corbae.BLL.Implementations
         /// <returns> User? </returns>
         public async Task<User?> GetById(Guid id)
         {
-            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserID == id);
+            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserID == id);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Corbae.BLL.Implementations
         /// <returns></returns>
         public async Task<User?> GetByEmail(string email)
         {
-            return await _dbContext.Users.Include(u => u.Orders).ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbContext.Users.ProjectTo<User>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<User?> GetByPhoneNumber(string phoneNumber)
@@ -72,13 +72,13 @@ namespace Corbae.BLL.Implementations
        /// </summary>
        /// <param name="userData"></param>
        /// <param name="id"></param>
-       /// <exception cref="NoUserWithThatIdException"></exception>
+       /// <exception cref="UserNotFoundException"></exception>
        /// <exception cref="EmailAlreadyInUseException"></exception>
        /// <exception cref="PhoneNumberAlreadyInUseException"></exception>
         public async Task Edit(UserToCreate userData, Guid id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
-            if (user == null) throw new NoUserWithThatIdException(id);
+            if (user == null) throw new UserNotFoundException();
 
             var emailUser=GetByEmail(userData.Email);
             if(emailUser != null) throw new EmailAlreadyInUseException(userData.Email);
@@ -125,11 +125,11 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <exception cref="NoUserWithThatIdException"></exception>
+        /// <exception cref="UserNotFoundException"></exception>
         public async Task AddAdminCapability(Guid id)
         {
             var user = await _dbContext.Users.Include(u => u.Orders).FirstOrDefaultAsync(u => u.UserID == id);
-            if (user == null) throw new NoUserWithThatIdException(id);
+            if (user == null) throw new UserNotFoundException();
             user.IsAdmin = true;
             await _dbContext.SaveChangesAsync();
         }
@@ -139,11 +139,11 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="id"></param>
         /// <param name="amount"></param>
-        /// <exception cref="NoUserWithThatIdException"></exception>
+        /// <exception cref="UserNotFoundException"></exception>
         public async Task AddMoney(Guid id, uint amount)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
-            if (user == null) throw new NoUserWithThatIdException(id);
+            if (user == null) throw new UserNotFoundException();
             user.Money += amount;
             await _dbContext.SaveChangesAsync();
         }
@@ -153,12 +153,12 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="id"></param>
         /// <param name="amount"></param>
-        /// <exception cref="NoUserWithThatIdException"></exception>
+        /// <exception cref="UserNotFoundException"></exception>
         /// <exception cref="NotEnoughMoneyException"></exception>
         public async Task ReduceMoney(Guid id, uint amount)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
-            if (user == null) throw new NoUserWithThatIdException(id);
+            if (user == null) throw new UserNotFoundException();
             if (user.Money < amount) throw new NotEnoughMoneyException();
             user.Money -= amount;
             await _dbContext.SaveChangesAsync();
@@ -169,11 +169,11 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <exception cref="NoUserWithThatIdException"></exception>
+        /// <exception cref="UserNotFoundException"></exception>
         public async Task Delete(Guid id)
         {
             var res = await _dbContext.Users.Where(u => u.UserID == id).ExecuteDeleteAsync();
-            if (res == 0) throw new NoUserWithThatIdException(id);
+            if (res == 0) throw new UserNotFoundException();
         }
     }
 }

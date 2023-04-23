@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL.Models.DTO;
+using Corbae.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
@@ -62,6 +63,18 @@ namespace Corbae.Controllers
         {
             var order = await _orderService.GetOrderById(orderID);
             return order;
+        }
+
+        /// <summary>
+        /// Получить данные из таблицы OrderProducts по ID заказа
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        [HttpGet("GetOrderProductsByOrderID")]
+        public async Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID)
+        {
+            var orderProducts = await _orderService.GetOrderProductsByOrderID(orderID);
+            return orderProducts;
         }
 
     }

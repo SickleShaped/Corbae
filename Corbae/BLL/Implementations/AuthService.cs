@@ -30,12 +30,12 @@ namespace Corbae.BLL.Implementations
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        /// <exception cref="NoUserWithThatEmailException"></exception>
+        /// <exception cref="UserNotFoundException"></exception>
         /// <exception cref="WrongPasswordException"></exception>
         public async Task<string> Login(string email, string password)
         {
             var user_ = await _userService.GetByEmail(email);
-            if (user_ == null) throw new NoUserWithThatEmailException(email);
+            if (user_ == null) throw new UserNotFoundException();
             if(BCrypt.Net.BCrypt.EnhancedVerify(password, user_.Password) == false) throw new WrongPasswordException();
             var jwt = await JwtIssue(user_);
             return jwt;

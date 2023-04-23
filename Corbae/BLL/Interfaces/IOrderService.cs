@@ -37,9 +37,26 @@ namespace Corbae.BLL.Interfaces
         Task<Order?> GetOrderById(Guid orderID);
 
         /// <summary>
+        /// Получить данные из таблицы OrderProducts по ID заказа
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID);
+
+        /// <summary>
         /// Сделать заказ
         /// </summary>
         /// <returns>Order?</returns>
-        Task<Order?> MakeAnOrder(List<Guid> productsID, Guid UserId);
+        Task MakeAnOrder(List<Guid> productsID, Guid UserId, string deliveryPlace);
+
+        /// <summary>
+        /// Оплатить заказ
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task PayForTheOrder(Guid orderID, Guid userId);
+
+        
     }
 }
