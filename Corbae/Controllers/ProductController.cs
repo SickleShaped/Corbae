@@ -2,6 +2,7 @@
 using Corbae.BLL.Interfaces;
 using Corbae.DAL.Models.Auxiliary_Models;
 using Corbae.DAL.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
@@ -10,7 +11,7 @@ namespace Corbae.Controllers
     /// Контроллер товара
     /// </summary>
     [ApiController]
-    [Route("/api/product")]
+    [Route("/product")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -60,6 +61,7 @@ namespace Corbae.Controllers
         /// <param name="userid"></param>
         /// <returns>Task<Product?></returns>
         [HttpPost("Create")]
+        [Authorize]
         public async Task Create(ProductToCreate productDto, Guid userid)
         {
             await _productService.Create(productDto, userid);
@@ -72,6 +74,7 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <returns>Task</returns>
         [HttpPut("Edit")]
+        [Authorize]
         public async Task Edit(ProductToCreate product, Guid productID)
         {
             await _productService.Edit(product, productID);
@@ -84,7 +87,8 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <param name="QuantityInStock"></param>
         /// <returns>Task</returns>
-        [HttpPut("")]
+        [HttpPut("EditQuantityInStock")]
+        [Authorize]
         public async Task EditQuantityInStock(Guid productID, uint qantityInStock)
         {
             await _productService.EditQuantityInStock(productID, qantityInStock);
@@ -96,6 +100,7 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <returns>Task</returns>
         [HttpPut("ReduceQuantityInStockBy")]
+        [Authorize]
         public async Task ReduceQuantityInStockBy(Guid productID, uint count)
         {
             await _productService.ReduceQuantityInStockBy(productID, count);
@@ -107,6 +112,7 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <returns>Task</returns>
         [HttpDelete("Delete")]
+        [Authorize]
         public async Task Delete(Guid productID)
         {
             await _productService.Delete(productID);
@@ -118,6 +124,7 @@ namespace Corbae.Controllers
         /// <param name="userid"></param>
         /// <returns>Task</returns>
         [HttpDelete("DeleteAllByUser")]
+        [Authorize]
         public async Task DeleteAllByUser(Guid userid)
         {
             await _productService.DeleteAllByUser(userid);

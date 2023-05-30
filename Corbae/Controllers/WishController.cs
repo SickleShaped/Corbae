@@ -1,35 +1,33 @@
-﻿using AutoMapper;
-using Corbae.BLL.Interfaces;
+﻿using Corbae.BLL.Interfaces;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
 {
     /// <summary>
-    /// Контроллер корзины
+    /// контроллер желаемого
     /// </summary>
     [ApiController]
-    [Route("/cart")]
-    public class CartController:Controller
+    [Route("/wish")]
+    public class WishController : Controller
     {
-        private readonly ICartService _cartService;
+        private readonly IWishService _wishService;
 
-        public CartController(ICartService cartService)
+        public WishController(IWishService wishService)
         {
-            _cartService = cartService;
+            _wishService = wishService;
         }
-
+        
         /// <summary>
         /// Получить корзину по ID пользователя
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         [HttpGet("GetCartProductsByUserId")]
-        [Authorize]
-        public async Task<List<CartProduct>> GetCartProductsByUserId(Guid userID)
+        public async Task<List<WishProduct>> GetWishProductsByUserId(Guid userID)
         {
-            var cartproducts = await _cartService.GetCartProductsByUserId(userID);
+            var cartproducts = await _wishService.GetWishProductsByUserId(userID);
             return cartproducts;
         }
 
@@ -39,38 +37,34 @@ namespace Corbae.Controllers
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         [HttpPost("Create")]
-        [Authorize]
         public async Task Create(Guid userID)
         {
-            await _cartService.Create(userID);
+            await _wishService.Create(userID);
         }
 
         /// <summary>
-        /// Добавить товар в корзину
+        /// Добавить товар в желаемое
         /// </summary>
         /// <param name="productID"></param>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         [HttpPost("AddProductToCart")]
-        [Authorize]
-        public async Task AddProductToCart(Guid productID, Guid userID)
+        public async Task AddProductToWish(Guid productID, Guid userID)
         {
-            await _cartService.AddProductToCart(productID, userID);
+            await _wishService.AddProductToWish(productID, userID);
         }
 
         /// <summary>
-        /// Удалить товар из корзины
+        /// Удалить товар из желаемого
         /// </summary>
         /// <param name="productID"></param>
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
         [HttpDelete("RemoveProductFromCart")]
-        [Authorize]
-        public async Task RemoveProductFromCart(Guid productID, Guid userID)
+        public async Task RemoveProductFromWish(Guid productID, Guid userID)
         {
-            await _cartService.RemoveProductFromCart(productID, userID);
+            await _wishService.RemoveProductFromWish(productID, userID);
         }
-
-
     }
+
 }

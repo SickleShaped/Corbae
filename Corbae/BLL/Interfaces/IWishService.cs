@@ -1,44 +1,46 @@
-﻿using Corbae.DAL.Models.DBModels;
-using Corbae.DAL.Models.DTO;
+﻿using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.Models;
 
 namespace Corbae.BLL.Interfaces
 {
     /// <summary>
-    /// Интерфейс, определяющий методы взаимодейвия с корзиной
+    /// Интерфейс, определяющий методы взаимодейвия с желаемым
     /// </summary>
-    public interface ICartService
+    public interface IWishService
     {
+
+        
         /// <summary>
-        /// Получить корзину по ID пользователя
+        /// Получить желаемое по ID пользователя
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        Task<List<CartProduct>> GetCartProductsByUserId(Guid userID);
+        Task<List<WishProduct>> GetWishProductsByUserId(Guid userID);
 
         /// <summary>
-        /// Создать корзину
+        /// Создать желаемое
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         Task Create(Guid userID);
 
         /// <summary>
-        /// Добавить товар в корзину
+        /// Добавить товар в желаемое
         /// </summary>
         /// <param name="productID"></param>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        Task AddProductToCart(Guid productID, Guid userID);
+        Task AddProductToWish(Guid productID, Guid userID);
 
         /// <summary>
-        /// Удалить товар из корзины
+        /// Удалить товар из желаемого
         /// </summary>
         /// <param name="productID"></param>
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
-        Task RemoveProductFromCart(Guid productID, Guid UserID);
+        Task RemoveProductFromWish(Guid productID, Guid UserID);
 
+        
 
     }
 }

@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.DAL.Models.DBModels;
 
-namespace Corbae.Models
+namespace Corbae.DAL.Models.DTO
 {
-    /// <summary>
-    /// Класс, содержащий поля корзины
-    /// </summary>
-    public class Cart
+    public class Wish
     {
         /// <summary>
-        /// Пользователь, к которому принадлежит корзина
+        /// ID пользователя и корзины
         /// </summary>
         public Guid UserID { get; set; }
 
@@ -21,7 +17,7 @@ namespace Corbae.Models
 
         /// <summary>
         /// Продукты, содержащиеся в корзине
-        /// </summary>
+        /// </summary>]
         public List<ProductDB> Products { get; set; } = new List<ProductDB>();
     }
 }

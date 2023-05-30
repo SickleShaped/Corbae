@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Corbae.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20230406153216_Initial")]
-    partial class Initial
+    [Migration("20230521111335_Initail")]
+    partial class Initail
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,6 +29,9 @@ namespace Corbae.Migrations
                 {
                     b.Property<Guid>("UserID")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
 
                     b.HasKey("UserID");
 
@@ -58,9 +61,61 @@ namespace Corbae.Migrations
                     b.HasIndex("CommentID")
                         .IsUnique();
 
+                    b.HasIndex("ProductID");
+
                     b.HasIndex("UserID");
 
                     b.ToTable("Comments", (string)null);
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.Intermediate_Models.WishProduct", b =>
+                {
+                    b.Property<Guid>("WishProductID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductID")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("WishProductID");
+
+                    b.HasIndex("ProductID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("WishProductID")
+                        .IsUnique();
+
+                    b.ToTable("WishProducts", (string)null);
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.NotificationDB", b =>
+                {
+                    b.Property<Guid>("NotificationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("NotificationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Text")
+                        .HasMaxLength(1023)
+                        .HasColumnType("character varying(1023)");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("NotificationID");
+
+                    b.HasIndex("NotificationID")
+                        .IsUnique();
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Corbae.DAL.Models.DBModels.OrderDB", b =>
@@ -72,15 +127,15 @@ namespace Corbae.Migrations
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DeliveryDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("DeliveryPlace")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uuid");
@@ -146,9 +201,6 @@ namespace Corbae.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
-                    b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -158,9 +210,6 @@ namespace Corbae.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
-
-                    b.Property<bool>("IsCustomer")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsSeller")
                         .ValueGeneratedOnAdd()
@@ -188,6 +237,21 @@ namespace Corbae.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.WishDB", b =>
+                {
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Wishes", (string)null);
                 });
 
             modelBuilder.Entity("Corbae.Models.CartProduct", b =>
@@ -254,8 +318,46 @@ namespace Corbae.Migrations
 
             modelBuilder.Entity("Corbae.DAL.Models.DBModels.CommentDB", b =>
                 {
+                    b.HasOne("Corbae.DAL.Models.DBModels.ProductDB", "Product")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
                         .WithMany("Comments")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.Intermediate_Models.WishProduct", b =>
+                {
+                    b.HasOne("Corbae.DAL.Models.DBModels.ProductDB", "Product")
+                        .WithMany("WishProducts")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Corbae.DAL.Models.DBModels.WishDB", "Wish")
+                        .WithMany("WishProducts")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Wish");
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.NotificationDB", b =>
+                {
+                    b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
+                        .WithMany("Notifications")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -279,6 +381,17 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.WishDB", b =>
+                {
+                    b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
+                        .WithOne("Wish")
+                        .HasForeignKey("Corbae.DAL.Models.DBModels.WishDB", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -341,7 +454,11 @@ namespace Corbae.Migrations
                 {
                     b.Navigation("CartProducts");
 
+                    b.Navigation("Comments");
+
                     b.Navigation("OrderProducts");
+
+                    b.Navigation("WishProducts");
                 });
 
             modelBuilder.Entity("Corbae.DAL.Models.DBModels.UserDB", b =>
@@ -350,11 +467,20 @@ namespace Corbae.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("OrderProducts");
 
                     b.Navigation("Orders");
 
                     b.Navigation("Products");
+
+                    b.Navigation("Wish");
+                });
+
+            modelBuilder.Entity("Corbae.DAL.Models.DBModels.WishDB", b =>
+                {
+                    b.Navigation("WishProducts");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Text.Json.Serialization;
+using Corbae.BLL.Enums;
 using Corbae.Models;
 
 namespace Corbae.DAL.Models.DBModels
@@ -33,7 +34,7 @@ namespace Corbae.DAL.Models.DBModels
         /// <summary>
         /// Статус заказа
         /// </summary>
-        public string Status { get; set; } = null!;
+        public OrderStatusEnum.Status Status { get; set; }
 
         /// <summary>
         /// Пользователь, совершивший заказ
@@ -54,6 +55,8 @@ namespace Corbae.DAL.Models.DBModels
         /// Вспомогательное поле для связи МкМ
         /// </summary>
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+
+        //public bool isDeleted { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Corbae.DAL.Models.DBModels;
+﻿using Corbae.BLL.Enums;
+using Corbae.DAL.Models.DBModels;
 using Corbae.Models;
 using System.Text.Json.Serialization;
 
@@ -27,7 +28,7 @@ namespace Corbae.DAL.Models.DTO
         /// <summary>
         /// Статус заказа
         /// </summary>
-        public string Status { get; set; } = null!;
+        public OrderStatusEnum.Status Status { get; set; }
 
         /// <summary>
         /// Место доставки заказа

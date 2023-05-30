@@ -91,19 +91,19 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Task</returns>
-        public async Task DeleteAllCommentsByUser(Guid userID)
-        {
-            var res = await _dbContext.Comments.Where(u => u.UserID == userID).ExecuteDeleteAsync( );
-        }
+        //public async Task DeleteAllCommentsByUser(Guid userID)
+        //{
+         //   var res = await _dbContext.Comments.Where(u => u.UserID == userID).ExecuteDeleteAsync( );
+       // }
 
         /// <summary>
         /// Удалить все комментарии под постом с указанным ID
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
-        public async Task DeleteAllCommentsByProduct(Guid productID)
-        {
-            var res = await _dbContext.Comments.Where(u => u.ProductID == productID).ExecuteDeleteAsync( );
-        }
+        //public async Task DeleteAllCommentsByProduct(Guid productID)
+        //{
+        //    var res = await _dbContext.Comments.Where(u => u.ProductID == productID).ExecuteDeleteAsync( );
+       // }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Corbae.BLL.Interfaces;
+using Corbae.DAL.Models.Auxiliary_Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
@@ -8,7 +9,7 @@ namespace Corbae.Controllers
     /// Контроллер аутентификации
     /// </summary>
     [ApiController]
-    [Route("/api/auth")]
+    [Route("/auth")]
     public class AuthController:Controller
     {
         private readonly IAuthService _authService;
@@ -24,7 +25,7 @@ namespace Corbae.Controllers
         /// <param name="user"> пользователь </param>
         /// <returns>Task<IResult</returns>
         [HttpGet("Login")]
-        public async Task<string> Login(string email, string password)
+        public async Task<LoginResponse> Login(string email, string password)
         {
             return await _authService.Login(email, password);
         }

@@ -26,6 +26,10 @@ namespace Corbae.Mappings
 
             CreateMap<Cart, CartDB>().ReverseMap();
 
+            CreateMap<Wish, WishDB>().ReverseMap();
+
+            CreateMap<Notification, NotificationDB>().ReverseMap();
+
             
         }
     }

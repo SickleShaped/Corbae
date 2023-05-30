@@ -1,11 +1,13 @@
 ﻿using Corbae.BLL.Exceptions.UserExceptions;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
+using Corbae.DAL.Models.Auxiliary_Models;
 using Corbae.DAL.Models.DTO;
 using Corbae.Extensions;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 
 namespace Corbae.BLL.Implementations
@@ -32,13 +34,20 @@ namespace Corbae.BLL.Implementations
         /// <returns></returns>
         /// <exception cref="UserNotFoundException"></exception>
         /// <exception cref="WrongPasswordException"></exception>
-        public async Task<string> Login(string email, string password)
+        public async Task<LoginResponse> Login(string email, string password)
         {
             var user_ = await _userService.GetByEmail(email);
             if (user_ == null) throw new UserNotFoundException();
             if(BCrypt.Net.BCrypt.EnhancedVerify(password, user_.Password) == false) throw new WrongPasswordException();
             var jwt = await JwtIssue(user_);
-            return jwt;
+            var response = new LoginResponse();
+            response.Jwt=jwt;
+            response.UserId = user_.UserID;
+            DateTimeOffset now = (DateTimeOffset)DateTime.UtcNow.Add(TimeSpan.FromDays(30));
+            response.Expires = now.ToUnixTimeSeconds();
+
+            return response;
+
         }
 
         /// <summary>

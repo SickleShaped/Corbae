@@ -44,11 +44,6 @@ namespace Corbae.DAL.Models.DTO
         public string? PhoneNumber { get; set; }
 
         /// <summary>
-        /// Дата создания пользователя
-        /// </summary>
-        public DateTime? CreationDate { get; set; }
-
-        /// <summary>
         /// Баланс пользователя
         /// </summary>
         public decimal Money { get; set; }
@@ -62,10 +57,5 @@ namespace Corbae.DAL.Models.DTO
         /// Является ли пользователь Продавцом
         /// </summary>
         public bool IsSeller { get; set; }
-
-        /// <summary>
-        /// Является ли пользователь Покупателем
-        /// </summary>
-        public bool IsCustomer { get; set; }
     }
 }

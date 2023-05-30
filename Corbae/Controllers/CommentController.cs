@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
@@ -9,7 +10,7 @@ namespace Corbae.Controllers
     /// Контроллер комментариев
     /// </summary>
     [ApiController]
-    [Route("/api/comment")]
+    [Route("/comment")]
     public class CommentController:Controller
     {
         private readonly ICommentService _commentService;
@@ -49,6 +50,7 @@ namespace Corbae.Controllers
         /// <param name="productID"></param>
         /// <returns>Task<Comment?></returns>
         [HttpPost("LeaveAComment")]
+        [Authorize]
         public async Task LeaveAComment(string text, Guid userID, Guid productID)
         {
             await _commentService.LeaveAComment(text, userID, productID);
@@ -61,6 +63,7 @@ namespace Corbae.Controllers
         /// <param name="text"></param>
         /// <returns>Task</returns>
         [HttpPut("EditComment")]
+        [Authorize]
         public async Task EditComment(Guid commentID, string text)
         {
             await _commentService.EditComment(commentID, text);
@@ -72,33 +75,10 @@ namespace Corbae.Controllers
         /// <param name="commentID"></param>
         /// <returns>Task</returns>
         [HttpDelete("DeleteComment")]
+        [Authorize]
         public async Task DeleteComment(Guid commentID)
         {
             await _commentService.DeleteComment(commentID);
         }
-
-        /// <summary>
-        /// Удалить все комментарии пользователя
-        /// </summary>
-        /// <param name="userID"></param>
-        /// <returns>Task</returns>
-        [HttpDelete("DeleteAllCommentsByUser")]
-        public async Task DeleteAllCommentsByUser(Guid userID)
-        {
-            await _commentService.DeleteAllCommentsByUser(userID);
-        }
-
-        /// <summary>
-        /// Удалить все комментарии под товаром
-        /// </summary>
-        /// <param name="productID"></param>
-        /// <returns>Task</returns>
-        [HttpDelete("DeleteAllCommentsByProduct")]
-        public async Task DeleteAllCommentsByProduct(Guid productID)
-        {
-            await _commentService.DeleteAllCommentsByProduct(productID);
-        }
-
-
     }
 }

@@ -24,12 +24,14 @@ namespace Corbae.BLL.Implementations
         private readonly ApiDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ICartService _cartService;
+        private readonly IWishService _wishService;
 
-        public UserService(ApiDbContext dbContext, IMapper mapper, ICartService cartService)
+        public UserService(ApiDbContext dbContext, IMapper mapper, ICartService cartService, IWishService wishService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _cartService = cartService;
+            _wishService = wishService;
         }
 
         /// <summary>
@@ -103,18 +105,21 @@ namespace Corbae.BLL.Implementations
             var user = _mapper.Map<UserDB>(userDto);
 
             user.UserID = Guid.NewGuid();
-            user.CreationDate = DateTime.UtcNow;
             var hash = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
             user.Password = hash;
 
             var emailuser = await GetByEmail(user.Email);
             if (emailuser != null) throw new EmailAlreadyInUseException(user.Email);
 
-            var phoneNumberUser = await GetByPhoneNumber(user.PhoneNumber);
-            if (phoneNumberUser != null) throw new PhoneNumberAlreadyInUseException(user.PhoneNumber);
+            if(userDto.PhoneNumber != "")
+            { 
+                var phoneNumberUser = await GetByPhoneNumber(user.PhoneNumber);
+                if (phoneNumberUser != null) throw new PhoneNumberAlreadyInUseException(user.PhoneNumber);
+            }
 
             await _dbContext.Users.AddAsync(user );
             await _cartService.Create(user.UserID);
+            await _wishService.Create(user.UserID);
             await _dbContext.SaveChangesAsync( );
 
             return user.UserID;

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.Models;
 
 namespace Corbae.DAL.Models.DBModels
@@ -68,6 +69,21 @@ namespace Corbae.DAL.Models.DBModels
         /// Вспомогательное поле для связи МкМ
         /// </summary>
         public List<CartProduct> CartProducts { get; set; } = new List<CartProduct>();
+
+        /// <summary>
+        /// Желаемое, в котором есть этот товар
+        /// </summary>
+        public List<WishDB> Wishes { get; set; } = new List<WishDB>();
+
+        /// <summary>
+        /// Вспомогательное поле для связи МкМ
+        /// </summary>
+        public List<WishProduct> WishProducts { get; set; } = new List<WishProduct>();
+
+        /// <summary>
+        /// Комментарии, оставленные под этим товаром
+        /// </summary>
+        public List<CommentDB> Comments { get; set; } = new List<CommentDB>();
 
 
     }

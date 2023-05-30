@@ -3,6 +3,7 @@ using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 
 namespace Corbae.DAL
 {
@@ -26,6 +27,11 @@ namespace Corbae.DAL
         public DbSet<CartDB> Carts { get; set; } = null!;
 
         /// <summary>
+        /// DbSet Желаемого в БД
+        /// </summary>
+        public DbSet<WishDB> Wishes { get; set; } = null!;
+
+        /// <summary>
         /// DbSet Заказов в БД
         /// </summary>
         public DbSet<OrderDB> Orders { get; set; } = null!;
@@ -46,9 +52,19 @@ namespace Corbae.DAL
         public DbSet<CartProduct> CartProducts { get; set; } = null!;
 
         /// <summary>
+        /// DbSet вспомогательной таблицы для связи МкМ между Товарами и Желаемым
+        /// </summary>
+        public DbSet<WishProduct> WishProducts { get; set; } = null!;
+
+        /// <summary>
         /// DbSet комментариев в БД
         /// </summary>
         public DbSet<CommentDB> Comments { get; set; } = null!;
+
+        /// <summary>
+        /// DbSet уведомлений в БД
+        /// </summary>
+        public DbSet<NotificationDB> Notifications { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder builder)

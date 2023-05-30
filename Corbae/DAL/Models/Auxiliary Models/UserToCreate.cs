@@ -40,11 +40,6 @@
         /// </summary>
         public bool IsSeller { get; set; }
 
-        /// <summary>
-        /// Является ли пользователь Покупателем
-        /// </summary>
-        public bool IsCustomer { get; set; }
-
 
 
     }

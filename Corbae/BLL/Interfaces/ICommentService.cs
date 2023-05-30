@@ -53,14 +53,14 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Task</returns>
-        Task DeleteAllCommentsByUser(Guid userID);
+        //Task DeleteAllCommentsByUser(Guid userID);
 
         /// <summary>
         /// Удалить все комментарии под постом с указанным ID
         /// </summary>
         /// <param name="productID"></param>
         /// <returns></returns>
-        Task DeleteAllCommentsByProduct(Guid productID);
+        //Task DeleteAllCommentsByProduct(Guid productID);
         
     }
 }

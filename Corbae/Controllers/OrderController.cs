@@ -2,6 +2,7 @@
 using Corbae.BLL.Interfaces;
 using Corbae.DAL.Models.DTO;
 using Corbae.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Corbae.Controllers
@@ -10,7 +11,7 @@ namespace Corbae.Controllers
     /// Контроллер заказов
     /// </summary>
     [ApiController]
-    [Route("/api/order")]
+    [Route("/order")]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -36,6 +37,7 @@ namespace Corbae.Controllers
         /// <param name="userId"></param>
         /// <returns>Task<List<Order>></returns>
         [HttpGet("GetOrdersByCustomerId")]
+        [Authorize]
         public async Task<List<Order>> GetOrdersByCustomerId(Guid userId)
         {
             return await _orderService.GetOrdersByCustomerId(userId);
@@ -47,6 +49,7 @@ namespace Corbae.Controllers
         /// <param name="date"></param>
         /// <returns>Task<List<Order>></returns>
         [HttpGet("GetOrdersByDate")]
+        [Authorize]
         public async Task<List<Order>> GetOrdersByDate(DateTime date)
         {
             var orders = await _orderService.GetOrdersByDate(date);
@@ -59,6 +62,7 @@ namespace Corbae.Controllers
         /// <param name="orderID"></param>
         /// <returns>Task<Order?></returns>
         [HttpGet("GetOrderById")]
+        [Authorize]
         public async Task<Order?> GetOrderById(Guid orderID)
         {
             var order = await _orderService.GetOrderById(orderID);
@@ -71,6 +75,7 @@ namespace Corbae.Controllers
         /// <param name="orderID"></param>
         /// <returns></returns>
         [HttpGet("GetOrderProductsByOrderID")]
+        [Authorize]
         public async Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID)
         {
             var orderProducts = await _orderService.GetOrderProductsByOrderID(orderID);

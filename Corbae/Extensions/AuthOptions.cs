@@ -7,7 +7,7 @@ namespace Corbae.Extensions
     {
         public const string ISSUER = "Server";
         public const string AUDIENCE = "Client";
-        const string KEY = "encryptingkey";
+        const string KEY = "this is a long string that will be encrypting key";
         public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
     }

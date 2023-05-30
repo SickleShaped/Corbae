@@ -31,5 +31,10 @@ namespace Corbae.DAL.Models.DBModels
         /// ID товара, под которым оставлен этот комментарий
         /// </summary>
         public Guid ProductID { get; set; }
+
+        /// <summary>
+        /// Товар, под которым остален этот комментарий
+        /// </summary>
+        public ProductDB? Product { get; set; }
     }
 }

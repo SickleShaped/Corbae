@@ -7,10 +7,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 var connection = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<ApiDbContext>(options => options.UseNpgsql(connection));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5173")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
 
 builder.Services.AddControllers();
 
@@ -24,6 +35,7 @@ builder.Services.AddJwt();
 var app = builder.Build();
 
 app.UseDBInitialize();
+app.UseCors(MyAllowSpecificOrigins);
 
 if (app.Environment.IsDevelopment())
 {

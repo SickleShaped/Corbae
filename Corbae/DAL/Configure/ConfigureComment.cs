@@ -28,6 +28,12 @@ namespace Corbae.DAL.Configure
                    .WithMany(u => u.Comments)
                    .HasForeignKey(p => p.UserID)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+                  .HasOne(p => p.Product)
+                  .WithMany(u => u.Comments)
+                  .HasForeignKey(p => p.ProductID)
+                  .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

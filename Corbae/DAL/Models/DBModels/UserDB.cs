@@ -46,11 +46,6 @@ namespace Corbae.DAL.Models.DBModels
         public string? PhoneNumber { get; set; }
 
         /// <summary>
-        /// Дата создания пользователя
-        /// </summary>
-        public DateTime? CreationDate { get; set; }
-
-        /// <summary>
         /// Баланс пользователя
         /// </summary>
         public decimal Money { get; set; }
@@ -66,14 +61,14 @@ namespace Corbae.DAL.Models.DBModels
         public bool IsSeller { get; set; }
 
         /// <summary>
-        /// Является ли пользователь Покупателем
-        /// </summary>
-        public bool IsCustomer { get; set; }
-
-        /// <summary>
         /// Корзина пользователя
         /// </summary>
         public CartDB? Cart { get; set; }
+
+        /// <summary>
+        /// Желаемое пользователя
+        /// </summary>
+        public WishDB? Wish { get; set; }
 
         /// <summary>
         /// Товары, добавленные пользователем
@@ -94,6 +89,11 @@ namespace Corbae.DAL.Models.DBModels
         /// Комментарии пользователя
         /// </summary>
         public List<CommentDB> Comments { get; set; } = new List<CommentDB>();
+
+        /// <summary>
+        /// Уведомления пользователя
+        /// </summary>
+        public List<NotificationDB> Notifications { get; set; } = new List<NotificationDB>();
 
 
     }

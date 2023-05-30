@@ -1,4 +1,5 @@
-﻿using Corbae.DAL.Models.DBModels;
+﻿using Corbae.DAL.Models.Auxiliary_Models;
+using Corbae.DAL.Models.DBModels;
 using Corbae.DAL.Models.DTO;
 using Corbae.Models;
 
@@ -14,7 +15,7 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="user"> пользователь </param>
         /// <returns>Task<IResult</returns>
-        Task<string> Login(string email, string password);
+        Task<LoginResponse> Login(string email, string password);
         
 
         /// <summary>

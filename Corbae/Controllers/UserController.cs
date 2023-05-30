@@ -6,6 +6,7 @@ using Corbae.DAL.Models.DBModels;
 using AutoMapper;
 using Corbae.DAL.Models.DTO;
 using Corbae.DAL.Models.Auxiliary_Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Corbae.Controllers
 {
@@ -13,7 +14,7 @@ namespace Corbae.Controllers
     /// Контроллер пользователя
     /// </summary>
     [ApiController]
-    [Route("/api/user")]
+    [Route("/user")]
     public class UserController : Controller
     {
 
@@ -67,6 +68,7 @@ namespace Corbae.Controllers
         /// <param name="id"></param>
         /// <returns>Task</returns>
         [HttpPut("EditUser")]
+        [Authorize]
         public async Task Edit(UserToCreate userData, Guid id)
         {
             await _userService.Edit(userData, id);
@@ -78,6 +80,7 @@ namespace Corbae.Controllers
         /// <param name="id"></param>
         /// <returns>Task</returns>
         [HttpPut("AddAdminCapability")]
+        [Authorize]
         public async Task AddAdminCapability(Guid id)
         {
             await _userService.AddAdminCapability(id);
@@ -90,6 +93,7 @@ namespace Corbae.Controllers
         /// <param name="almount"></param>
         /// <returns>Task</returns>
         [HttpPut("AddMoney")]
+        [Authorize]
         public async Task Add(Guid id, uint almount)
         {
             await _userService.AddMoney(id, almount);
@@ -101,6 +105,7 @@ namespace Corbae.Controllers
         /// <param name="id"></param>
         /// <returns>Task</returns>
         [HttpDelete("DeleteUser")]
+        [Authorize]
         public async Task DeleteUser(Guid id)
         {
             await _userService.Delete(id);

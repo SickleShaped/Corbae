@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Corbae.BLL.Enums;
 using Corbae.BLL.Exceptions.OrderExceptions;
 using Corbae.BLL.Exceptions.ProductExceptions;
 using Corbae.BLL.Exceptions.UserExceptions;
@@ -98,7 +99,7 @@ namespace Corbae.BLL.Implementations
             order.CreationDate = DateTime.UtcNow;
             order.DeliveryPlace = deliveryPlace;
             order.UserID = userID;
-            order.Status = "created";
+            order.Status = OrderStatusEnum.Status.Created;
 
             var user = await _userService.GetById(userID);
             if (user == null) throw new UserNotFoundException();
@@ -152,7 +153,7 @@ namespace Corbae.BLL.Implementations
             }
 
             user.Money -= order.Price;
-            order.Status = "paid";
+            order.Status = OrderStatusEnum.Status.Paid;
 
             await _dbContext.SaveChangesAsync();
 
