@@ -1,4 +1,7 @@
-﻿using Corbae.Models;
+﻿using Corbae.DAL.Models.Auxiliary_Models;
+using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DTO;
+using Corbae.Models;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -8,17 +11,18 @@ namespace Corbae.BLL.Interfaces
     public interface IAuthService
     {
         /// <summary>
-        /// Зарегестрировать пользователя
+        /// Войти в аккаунт пользователя
         /// </summary>
         /// <param name="user"> пользователь </param>
-        /// <returns>User</returns>
-        //Task<User> SignUp(User user);
+        /// <returns>Task<IResult</returns>
+        Task<LoginResponse> Login(string email, string password);
+        
 
         /// <summary>
         /// Создать JWT токен
         /// </summary>
         /// <param name="user"> пользователь </param>
-        /// <returns>jwt токен в форме строки</returns>
-        //string JwtIssue(User user);
+        /// <returns>string</returns>
+        Task<string> JwtIssue(User user);
     }
 }

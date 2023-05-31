@@ -1,17 +1,25 @@
 ﻿using Corbae.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Corbae.DAL.Models.DBModels;
 
 namespace Corbae.Configure
 {
-    public class ConfigureCart : IEntityTypeConfiguration<Cart>
+    /// <summary>
+    /// Класс, описывающий конфигурацию корзины в БД
+    /// </summary>
+    public class ConfigureCart : IEntityTypeConfiguration<CartDB>
     {
-        public void Configure(EntityTypeBuilder<Cart> builder)
+        /// <summary>
+        /// Конфигурация Корзины в БД
+        /// </summary>
+        /// <param name="builder"></param>
+        public void Configure(EntityTypeBuilder<CartDB> builder)
         {
             builder.ToTable("Carts");
 
-            builder.HasKey(c => c.CartID);
-            builder.HasIndex(c => c.CartID).IsUnique();
+            builder.HasKey(c => c.UserID);
+            builder.HasIndex(c => c.UserID);
 
             builder
                    .HasMany(s => s.Products)
@@ -25,7 +33,7 @@ namespace Corbae.Configure
                 cp => cp
                     .HasOne(cp => cp.Cart)
                     .WithMany(c => c.CartProducts)
-                    .HasForeignKey(cp => cp.CartID)
+                    .HasForeignKey(cp => cp.UserID)
                     .OnDelete(DeleteBehavior.Cascade), 
                 cp =>
                 {

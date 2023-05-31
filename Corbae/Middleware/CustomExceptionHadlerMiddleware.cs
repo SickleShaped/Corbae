@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Corbae.Middleware
 {
+    /// <summary>
+    /// Класс, отвечающий за обработку кастомных исключений
+    /// </summary>
     public class CustomExceptionHadlerMiddleware
     {
         private readonly RequestDelegate _next;
@@ -16,6 +19,11 @@ namespace Corbae.Middleware
             _next = next;
         }
 
+        /// <summary>
+        /// Отлавливание исключения в следующем действии
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
             try
@@ -40,6 +48,10 @@ namespace Corbae.Middleware
 
                 case EmailAlreadyInUseException emailAlreadyInUseException:
                     code = HttpStatusCode.BadRequest;
+                    break;
+
+                default:
+                    code=HttpStatusCode.BadRequest;
                     break;
             }
             context.Response.ContentType = "application/json";
