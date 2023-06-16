@@ -32,11 +32,6 @@ namespace Corbae.DAL.Models.DBModels
         public string DeliveryPlace { get; set; } = null!;
 
         /// <summary>
-        /// Статус заказа
-        /// </summary>
-        public OrderStatusEnum.Status Status { get; set; }
-
-        /// <summary>
         /// Пользователь, совершивший заказ
         /// </summary>
         public UserDB? User { get; set; }

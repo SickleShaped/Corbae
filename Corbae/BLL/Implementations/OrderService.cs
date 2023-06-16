@@ -7,6 +7,7 @@ using Corbae.BLL.Exceptions.UserExceptions;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
 using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.DAL.Models.DTO;
 using Corbae.Exceptions.UserExceptions;
 using Corbae.Models;
@@ -82,17 +83,89 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="orderID"></param>
         /// <returns></returns>
-        public async Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID)
+        public async Task<List<OrderProductReturn>> GetOrderProductsByOrderID(Guid orderID)
         {
-            return await _dbContext.OrdersProducts.Include(u => u.Product).Where(u => u.OrderID == orderID).ToListAsync();
+            var products = await _dbContext.OrderProducts.Where(u => u.OrderID == orderID).Include(u => u.Product).ToListAsync();
+
+            List<OrderProductReturn> orderproducts = new List<OrderProductReturn>();
+
+            foreach (var orderproduct in products)
+            {
+                OrderProductReturn product2 = new OrderProductReturn();
+                product2.ProductID = orderproduct.Product.ProductID;
+                product2.Name = orderproduct.Product.Name;
+                product2.Description = orderproduct.Product.Description;
+                product2.Price = orderproduct.Product.Price;
+                product2.QuantityInStock = orderproduct.Product.QuantityInStock;
+                product2.Category = orderproduct.Product.Category;
+                product2.UserID = orderproduct.Product.UserID;
+                product2.OrderProductID = orderproduct.OrderProductID;
+
+                orderproducts.Add(product2);
+            }
+
+            return orderproducts;
+
         }
 
         /// <summary>
         /// Сделать заказ
         /// </summary>
         /// <returns>Task<Order?></returns>
-        public async Task MakeAnOrder(List<Guid> productsID, Guid userID, string deliveryPlace)
+        public async Task MakeAnOrder(Guid userID, string deliveryPlace)
         {
+            var cartproducts = await _dbContext.CartProducts.Where(u => u.UserID == userID)
+                                                            .Include(u => u.Product)
+                                                                .ThenInclude(u=>u.User)
+                                                            .ToListAsync();
+
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == userID);
+
+            List<OrderProduct> orderProducts = new List<OrderProduct>();
+            OrderDB order = new OrderDB();
+            order.OrderID = Guid.NewGuid();
+            order.UserID = userID;
+            order.DeliveryPlace = deliveryPlace;
+            order.CreationDate = DateTime.UtcNow;
+
+            decimal orderprice = 0;
+            foreach(var cartproduct in cartproducts)
+            {
+                orderprice += cartproduct.Product.Price;
+                if(cartproduct.Product.QuantityInStock>0)
+                {
+                    cartproduct.Product.QuantityInStock--;
+                }
+                else
+                {
+                    throw new NoEnoughProductsException(cartproduct.Product.Name);
+                }
+            }
+            order.Price = orderprice;
+            if (user.Money < order.Price) { throw new NoEnoughMoneyException(user.Money, order.Price); }
+
+            await _dbContext.Orders.AddAsync(order);
+            await _dbContext.SaveChangesAsync();
+
+            foreach (var cartproduct in cartproducts)
+            {
+                user.Money -= cartproduct.Product.Price;
+                cartproduct.Product.User.Money += cartproduct.Product.Price;
+                OrderProduct orderProduct = new OrderProduct();
+                orderProduct.OrderProductID = Guid.NewGuid();
+                orderProduct.ProductID = cartproduct.Product.ProductID;
+                orderProduct.OrderID = order.OrderID;
+                orderProducts.Add(orderProduct);
+                //await _dbContext.OrderProducts.AddAsync(orderProduct);
+            }
+
+            //await _dbContext.OrderProducts.AddRangeAsync(orderProducts);
+            await _dbContext.OrderProducts.AddRangeAsync(orderProducts);
+            await _dbContext.CartProducts.Where(u => u.UserID == userID).ExecuteDeleteAsync();
+            await _dbContext.SaveChangesAsync();
+            
+
+            /*
             List<OrderProduct> orderProducts = new List<OrderProduct>();
             Order order = new Order();
             order.OrderID = new Guid();
@@ -113,53 +186,18 @@ namespace Corbae.BLL.Implementations
                 orderProduct.OrderID = order.OrderID;
                 orderProducts.Add(orderProduct);
 
-                if (product.Product == null) throw new NoProductWithThatIdException(product.ProductID);
-                order.Price += product.Product.Price;
+                if (product == null) throw new NoProductWithThatIdException(product.ProductID);
+                order.Price += product.Price;
 
             }
             if (user.Money < order.Price) throw new NoEnoughMoneyException(user.Money, order.Price);
-            await _dbContext.OrdersProducts.AddRangeAsync(orderProducts);
+            await _dbContext.OrderProducts.AddRangeAsync(orderProducts);
             var deleted= await _dbContext.CartProducts.Where(u => u.UserID == userID).ExecuteDeleteAsync();
             var orderDB= _mapper.Map<OrderDB>(order);
             await _dbContext.Orders.AddAsync(orderDB);
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();*/
         }
 
-        /// <summary>
-        /// Оплатить заказ
-        /// </summary>
-        /// <param name="orderID"></param>
-        /// <param name="userID"></param>
-        /// <returns></returns>
-        public async Task PayForTheOrder(Guid orderID, Guid userID)
-        {
-            List<Product> products = new List<Product>();
-            var order = await GetOrderById(orderID);
-            if (order == null) throw new OrderNotFoundException();
-            var user = await _userService.GetById(userID);
-            if (user == null) throw new UserNotFoundException();
-
-            var orderProducts = await _dbContext.OrdersProducts.Include(u => u.Product).Include(u => u.Product.User).Where(u => u.OrderID == orderID).ToListAsync();
-
-            if (user.Money < order.Price) throw new NoEnoughMoneyException(user.Money, order.Price);
-            foreach (var orderProduct in orderProducts)
-            {
-                if (orderProduct.Product.QuantityInStock < 1) throw new ProductOutOfStockException(orderProduct.Product.Name);
-            }
-            foreach (var orderProduct in orderProducts)
-            {
-                orderProduct.Product.User.Money += orderProduct.Product.Price;
-                orderProduct.Product.QuantityInStock--;
-            }
-
-            user.Money -= order.Price;
-            order.Status = OrderStatusEnum.Status.Paid;
-
-            await _dbContext.SaveChangesAsync();
-
-
-
-        }
     }
 }
 

@@ -43,6 +43,7 @@ namespace Corbae.Controllers
         /// <param name="userId"></param>
         /// <returns>Task<IActionResult></returns>
         [HttpGet("GetUserByID")]
+
         public async Task<IActionResult> GetUserByID(Guid userId)
         {
             var user = await _userService.GetById(userId);
@@ -55,6 +56,7 @@ namespace Corbae.Controllers
         /// <param name="user"></param>
         /// <returns>Task<Guid></returns>
         [HttpPost("CreateUser")] //POST: /createuser
+        
         public async Task<Guid> CreateUser(UserToCreate user)
         {
             var newUserId = await _userService.Create(user);
@@ -69,7 +71,7 @@ namespace Corbae.Controllers
         /// <returns>Task</returns>
         [HttpPut("EditUser")]
         [Authorize]
-        public async Task Edit(UserToCreate userData, Guid id)
+        public async Task Edit(UserToEdit userData, Guid id)
         {
             await _userService.Edit(userData, id);
         }
@@ -96,7 +98,22 @@ namespace Corbae.Controllers
         [Authorize]
         public async Task Add(Guid id, uint almount)
         {
+            var i = HttpContext.Request.Headers.ToList();
             await _userService.AddMoney(id, almount);
+        }
+
+        /// <summary>
+        /// Добавить деньги на счет пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="almount"></param>
+        /// <returns>Task</returns>
+        [HttpPut("ReduceMoney")]
+        [Authorize]
+        public async Task Reduce(Guid id, uint almount)
+        {
+            var i = HttpContext.Request.Headers.ToList();
+            await _userService.ReduceMoney(id, almount);
         }
 
         /// <summary>

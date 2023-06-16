@@ -81,11 +81,6 @@ namespace Corbae.DAL.Models.DBModels
         public List<OrderDB> Orders { get; set; } = new List<OrderDB>();
 
         /// <summary>
-        /// Вспомогательное поле для связи МкМ
-        /// </summary>
-        public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
-
-        /// <summary>
         /// Комментарии пользователя
         /// </summary>
         public List<CommentDB> Comments { get; set; } = new List<CommentDB>();

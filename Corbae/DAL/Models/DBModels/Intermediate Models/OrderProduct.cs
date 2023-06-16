@@ -24,10 +24,10 @@ namespace Corbae.Models
         /// </summary>
         public Guid ProductID { get; set; }
 
-        [JsonIgnore]
+       
         public OrderDB? Order { get; set; }
 
-        [JsonIgnore]
+        
         public ProductDB? Product { get;set; }
 
     }

@@ -19,6 +19,7 @@ namespace Corbae.Mappings
 
             CreateMap<ProductDB, Product>().ReverseMap();
             CreateMap<Product, ProductToCreate>().ReverseMap();
+            CreateMap<ProductDB, ProductToCreate>().ReverseMap();
 
             CreateMap<OrderDB, Order>().ReverseMap();
 

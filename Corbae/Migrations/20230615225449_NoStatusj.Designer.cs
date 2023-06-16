@@ -3,6 +3,7 @@ using System;
 using Corbae.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Corbae.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230615225449_NoStatusj")]
+    partial class NoStatusj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,14 +287,17 @@ namespace Corbae.Migrations
                     b.Property<Guid>("ProductID")
                         .HasColumnType("uuid");
 
-                    b.HasKey("OrderProductID");
+                    b.Property<Guid?>("UserDBUserID")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("OrderID");
+                    b.HasKey("OrderProductID");
 
                     b.HasIndex("OrderProductID")
                         .IsUnique();
 
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("UserDBUserID");
 
                     b.ToTable("OrderProducts", (string)null);
                 });
@@ -412,7 +418,7 @@ namespace Corbae.Migrations
                 {
                     b.HasOne("Corbae.DAL.Models.DBModels.OrderDB", "Order")
                         .WithMany("OrderProducts")
-                        .HasForeignKey("OrderID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -421,6 +427,10 @@ namespace Corbae.Migrations
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Corbae.DAL.Models.DBModels.UserDB", null)
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("UserDBUserID");
 
                     b.Navigation("Order");
 
@@ -455,6 +465,8 @@ namespace Corbae.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Notifications");
+
+                    b.Navigation("OrderProducts");
 
                     b.Navigation("Orders");
 

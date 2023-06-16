@@ -3,6 +3,7 @@ using System;
 using Corbae.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Corbae.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230615233036_NoStatus4")]
+    partial class NoStatus4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,8 +289,6 @@ namespace Corbae.Migrations
 
                     b.HasKey("OrderProductID");
 
-                    b.HasIndex("OrderID");
-
                     b.HasIndex("OrderProductID")
                         .IsUnique();
 
@@ -412,7 +413,7 @@ namespace Corbae.Migrations
                 {
                     b.HasOne("Corbae.DAL.Models.DBModels.OrderDB", "Order")
                         .WithMany("OrderProducts")
-                        .HasForeignKey("OrderID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

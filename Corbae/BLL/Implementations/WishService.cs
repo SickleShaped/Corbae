@@ -33,9 +33,29 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        public async Task<List<WishProduct>> GetWishProductsByUserId(Guid userID)
+        public async Task<List<WishProductReturn>> GetWishProductsByUserId(Guid userID)
         {
-            return await _dbContext.WishProducts.Where(u => u.UserID == userID).Include(u => u.Product).ToListAsync();
+           var wishes =  await _dbContext.WishProducts.Where(u => u.UserID == userID).Include(u => u.Product).ToListAsync();
+
+
+            List<WishProductReturn> wishproducts = new List<WishProductReturn>();
+
+            foreach (var wish in wishes)
+            {
+                WishProductReturn product = new WishProductReturn();
+                product.ProductID = wish.Product.ProductID;
+                product.Name = wish.Product.Name;
+                product.Description = wish.Product.Description;
+                product.Price = wish.Product.Price;
+                product.QuantityInStock = wish.Product.QuantityInStock;
+                product.Category = wish.Product.Category;
+                product.UserID = wish.Product.UserID;
+                product.WishProductID = wish.WishProductID;
+                
+                wishproducts.Add(product);
+            }
+
+            return wishproducts;
         }
 
         /// <summary>
@@ -67,6 +87,7 @@ namespace Corbae.BLL.Implementations
                 wishProduct.UserID = userID;
                 wishProduct.WishProductID = new Guid();
                 await _dbContext.WishProducts.AddAsync(wishProduct);
+                await _dbContext.SaveChangesAsync();
             }
         }
 
@@ -76,9 +97,9 @@ namespace Corbae.BLL.Implementations
         /// <param name="productID"></param>
         /// <param name="UserID"></param>
         /// <returns>Task<List<CartProduct>></returns>
-        public async Task RemoveProductFromWish(Guid wishProductId, Guid userID)
+        public async Task RemoveProductFromWish(Guid wishProductID, Guid userID)
         {
-            var res = await _dbContext.WishProducts.Where(u => u.WishProductID == wishProductId).ExecuteDeleteAsync();
+            var res = await _dbContext.WishProducts.Where(u => u.WishProductID == wishProductID).ExecuteDeleteAsync();
         }
 
         /// <summary>

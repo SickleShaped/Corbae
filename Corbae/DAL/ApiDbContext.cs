@@ -44,7 +44,7 @@ namespace Corbae.DAL
         /// <summary>
         /// DbSet вспомогательной таблицы для связи МкМ между Товарами и Заказами
         /// </summary>
-        public DbSet<OrderProduct> OrdersProducts { get; set; } = null!;
+        public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
 
         /// <summary>
         /// DbSet вспомогательной таблицы для связи МкМ между Товарами и Корзинами

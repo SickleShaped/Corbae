@@ -2,10 +2,14 @@
 using AutoMapper.QueryableExtensions;
 using Corbae.BLL.Exceptions.CartExceptions;
 using Corbae.BLL.Exceptions.ProductExceptions;
+using Corbae.BLL.Exceptions.UserExceptions;
 using Corbae.BLL.Interfaces;
 using Corbae.DAL;
+using Corbae.DAL.Models.Auxiliary_Models;
 using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.DAL.Models.DTO;
+using Corbae.Exceptions.UserExceptions;
 using Corbae.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,9 +37,31 @@ namespace Corbae.BLL.Implementations
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        public async Task<List<CartProduct>> GetCartProductsByUserId(Guid userID)
+        public async Task<List<CartProductReturn>> GetCartProductsByUserId(Guid userID)
         {
-           return await _dbContext.CartProducts.Where(u => u.UserID == userID).Include(u => u.Product).ToListAsync();
+
+                var products = await _dbContext.CartProducts.Where(u => u.UserID == userID).Include(u => u.Product).ToListAsync();
+
+                List<CartProductReturn> cartproducts = new List<CartProductReturn>();
+
+                foreach (var cartproduct in products)
+                {
+                CartProductReturn product2 = new CartProductReturn();
+                    product2.ProductID = cartproduct.Product.ProductID;
+                    product2.Name = cartproduct.Product.Name;
+                    product2.Description = cartproduct.Product.Description;
+                    product2.Price = cartproduct.Product.Price;
+                    product2.QuantityInStock = cartproduct.Product.QuantityInStock;
+                    product2.Category = cartproduct.Product.Category;
+                    product2.UserID = cartproduct.Product.UserID;
+                    product2.CartProductID = cartproduct.CartProductID;
+
+                cartproducts.Add(product2);
+                }
+
+                return cartproducts;
+            
+
         }
 
         /// <summary>
@@ -60,13 +86,21 @@ namespace Corbae.BLL.Implementations
         public async Task AddProductToCart(Guid productID, Guid userID)
         {
             bool notOwn = await CheckDifferencesBetweenID(productID, userID);
-            if(notOwn)
+            ProductDB? product = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID);
+            if(product == null) { throw new NoProductWithThatIdException(productID); }
+            CartDB? cart = await _dbContext.Carts.FirstOrDefaultAsync(u => u.UserID == userID);
+            if(cart==null) { throw new CartNotFoundException(); }
+                        
+            if (notOwn)
             {
                 CartProduct cartProduct = new CartProduct();
                 cartProduct.ProductID = productID;
                 cartProduct.UserID = userID;
                 cartProduct.CartProductID = new Guid();
-                await _dbContext.CartProducts.AddAsync(cartProduct );
+                cartProduct.Product = product;
+                cartProduct.Cart = cart;
+                await _dbContext.CartProducts.AddAsync(cartProduct);
+                await _dbContext.SaveChangesAsync();
             }
         }
 

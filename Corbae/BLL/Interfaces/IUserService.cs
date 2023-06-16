@@ -51,7 +51,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="userData">Измененные данные пользователя</param>
         /// <param name="user">пользователь</param>
         /// <returns>User?</returns>
-        Task Edit(UserToCreate userData, Guid id);
+        Task Edit(UserToEdit userData, Guid id);
 
         /// <summary>
         /// Дать пользователю полномочия админа

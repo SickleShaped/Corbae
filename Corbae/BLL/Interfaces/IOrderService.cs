@@ -1,6 +1,7 @@
 ﻿using Corbae.Models;
 using Corbae.DAL.Models.DBModels;
 using Corbae.DAL.Models.DTO;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 
 namespace Corbae.BLL.Interfaces
 {
@@ -41,21 +42,13 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="orderID"></param>
         /// <returns></returns>
-        Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID);
+        Task<List<OrderProductReturn>> GetOrderProductsByOrderID(Guid orderID);
 
         /// <summary>
         /// Сделать заказ
         /// </summary>
         /// <returns>Order?</returns>
-        Task MakeAnOrder(List<Guid> productsID, Guid UserId, string deliveryPlace);
-
-        /// <summary>
-        /// Оплатить заказ
-        /// </summary>
-        /// <param name="orderID"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task PayForTheOrder(Guid orderID, Guid userId);
+        Task MakeAnOrder(Guid UserId, string deliveryPlace);
 
         
     }

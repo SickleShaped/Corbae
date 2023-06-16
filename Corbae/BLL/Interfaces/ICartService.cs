@@ -1,4 +1,5 @@
 ﻿using Corbae.DAL.Models.DBModels;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.DAL.Models.DTO;
 using Corbae.Models;
 
@@ -14,7 +15,7 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        Task<List<CartProduct>> GetCartProductsByUserId(Guid userID);
+        Task<List<CartProductReturn>> GetCartProductsByUserId(Guid userID);
 
         /// <summary>
         /// Создать корзину

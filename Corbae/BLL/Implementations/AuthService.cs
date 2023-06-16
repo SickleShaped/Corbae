@@ -27,7 +27,7 @@ namespace Corbae.BLL.Implementations
         }
 
         /// <summary>
-        /// 
+        /// Залогинить пользвоателя
         /// </summary>
         /// <param name="email"></param>
         /// <param name="password"></param>

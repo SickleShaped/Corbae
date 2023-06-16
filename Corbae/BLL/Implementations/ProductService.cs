@@ -55,7 +55,7 @@ namespace Corbae.BLL.Implementations
         /// <returns>Product?</returns>
         public async Task<Product?> GetById(Guid productId)
         {
-            return await _dbContext.Products.ProjectTo<Product>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserID == productId);
+            return await _dbContext.Products.ProjectTo<Product>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.ProductID == productId);
         }
 
         /// <summary>
@@ -81,7 +81,10 @@ namespace Corbae.BLL.Implementations
         {
             var product = await _dbContext.Products.FirstOrDefaultAsync(u => u.ProductID == productID);
             if (product == null) throw new NoProductWithThatIdException(productID);
-            product = _mapper.Map<ProductDB>(productDto);
+            product.Price=productDto.Price;
+            product.Name = productDto.Name;
+            product.Category=productDto.Category;
+            product.Description = productDto.Description;
             await _dbContext.SaveChangesAsync();
         }
 

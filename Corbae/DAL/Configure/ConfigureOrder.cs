@@ -40,7 +40,7 @@ namespace Corbae.Configure
                 op => op
                     .HasOne(op => op.Order)
                     .WithMany(o => o.OrderProducts)
-                    .HasForeignKey(op => op.ProductID)
+                    .HasForeignKey(op => op.OrderID)
                     .OnDelete(DeleteBehavior.Restrict),
                 op =>
                 {

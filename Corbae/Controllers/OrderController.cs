@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Corbae.BLL.Interfaces;
+using Corbae.DAL.Models.DBModels.Intermediate_Models;
 using Corbae.DAL.Models.DTO;
 using Corbae.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -75,11 +76,22 @@ namespace Corbae.Controllers
         /// <param name="orderID"></param>
         /// <returns></returns>
         [HttpGet("GetOrderProductsByOrderID")]
-        [Authorize]
-        public async Task<List<OrderProduct>> GetOrderProductsByOrderID(Guid orderID)
+        //[Authorize]
+        public async Task<List<OrderProductReturn>> GetOrderProductsByOrderID(Guid orderID)
         {
             var orderProducts = await _orderService.GetOrderProductsByOrderID(orderID);
             return orderProducts;
+        }
+
+        /// <summary>
+        /// Создать заказ
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        [HttpPost("MakeAnOrder")]
+        public async Task MakeAnOrder(Guid userID, string deliveryPlace)
+        {
+            await _orderService.MakeAnOrder(userID, deliveryPlace);
         }
 
     }

@@ -77,18 +77,26 @@ namespace Corbae.BLL.Implementations
        /// <exception cref="UserNotFoundException"></exception>
        /// <exception cref="EmailAlreadyInUseException"></exception>
        /// <exception cref="PhoneNumberAlreadyInUseException"></exception>
-        public async Task Edit(UserToCreate userData, Guid id)
+        public async Task Edit(UserToEdit userData, Guid id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserID == id);
             if (user == null) throw new UserNotFoundException();
 
-            var emailUser=GetByEmail(userData.Email);
-            if(emailUser != null) throw new EmailAlreadyInUseException(userData.Email);
+            var emailUser= await GetByEmail(userData.Email);
+            if(emailUser != null && emailUser.UserID!=id) throw new EmailAlreadyInUseException(userData.Email);
 
-            var phoneNumberUser=GetByPhoneNumber(userData.PhoneNumber);
-            if(phoneNumberUser != null) throw new PhoneNumberAlreadyInUseException(userData.PhoneNumber);
+            if(userData.PhoneNumber!=null)
+            {
+                var phoneNumberUser = await GetByPhoneNumber(userData.PhoneNumber);
+                if (phoneNumberUser != null && phoneNumberUser.PhoneNumber!=null && phoneNumberUser.PhoneNumber != "") { throw new PhoneNumberAlreadyInUseException(userData.PhoneNumber); }
+            }
+            
 
-            user = _mapper.Map<UserDB>(userData);
+            user.Adress = userData.Adress;
+            user.PhoneNumber = userData.PhoneNumber;
+            user.Email = userData.Email;
+            user.Name = userData.Name;
+            user.Company = userData.Company;
 
             await _dbContext.SaveChangesAsync();
 

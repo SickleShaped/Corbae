@@ -1,4 +1,5 @@
 ﻿using Corbae.DAL.Models.DBModels.Intermediate_Models;
+using Corbae.DAL.Models.DTO;
 using Corbae.Models;
 
 namespace Corbae.BLL.Interfaces
@@ -15,7 +16,7 @@ namespace Corbae.BLL.Interfaces
         /// </summary>
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
-        Task<List<WishProduct>> GetWishProductsByUserId(Guid userID);
+        Task<List<WishProductReturn>> GetWishProductsByUserId(Guid userID);
 
         /// <summary>
         /// Создать желаемое
@@ -38,7 +39,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="productID"></param>
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
-        Task RemoveProductFromWish(Guid productID, Guid UserID);
+        Task RemoveProductFromWish(Guid wishProductID, Guid UserID);
 
         
 

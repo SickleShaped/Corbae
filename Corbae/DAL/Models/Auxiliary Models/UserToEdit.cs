@@ -1,19 +1,14 @@
 ﻿namespace Corbae.DAL.Models.Auxiliary_Models
 {
     /// <summary>
-    /// Класс, содержащий поля пользователя, используемые для создания пользователя
+    /// Класс, содержащий поля пользователя, используемые для изменения пользователя
     /// </summary>
-    public class UserToCreate
+    public class UserToEdit
     {
         /// <summary>
         /// Почта пользователя
         /// </summary>
         public string Email { get; set; } = null!;
-
-        /// <summary>
-        /// Хэш и Соль пароля
-        /// </summary>
-        public string Password { get; set; } = null!;
 
         /// <summary>
         /// Имя пользователя
@@ -34,12 +29,6 @@
         /// Номер телефона пользователя
         /// </summary>
         public string? PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Является ли пользователь Продавцом
-        /// </summary>
-        public bool IsSeller { get; set; }
-
 
 
     }

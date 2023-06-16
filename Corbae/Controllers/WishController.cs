@@ -1,5 +1,6 @@
 ﻿using Corbae.BLL.Interfaces;
 using Corbae.DAL.Models.DBModels.Intermediate_Models;
+using Corbae.DAL.Models.DTO;
 using Corbae.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace Corbae.Controllers
         /// <param name="userID"></param>
         /// <returns>Cart?</returns>
         [HttpGet("GetCartProductsByUserId")]
-        public async Task<List<WishProduct>> GetWishProductsByUserId(Guid userID)
+        public async Task<List<WishProductReturn>> GetWishProductsByUserId(Guid userID)
         {
             var cartproducts = await _wishService.GetWishProductsByUserId(userID);
             return cartproducts;
@@ -61,9 +62,9 @@ namespace Corbae.Controllers
         /// <param name="UserID"></param>
         /// <returns>Cart?</returns>
         [HttpDelete("RemoveProductFromCart")]
-        public async Task RemoveProductFromWish(Guid productID, Guid userID)
+        public async Task RemoveProductFromWish(Guid wishProductID, Guid userID)
         {
-            await _wishService.RemoveProductFromWish(productID, userID);
+            await _wishService.RemoveProductFromWish(wishProductID, userID);
         }
     }
 

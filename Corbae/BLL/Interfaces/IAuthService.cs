@@ -16,7 +16,7 @@ namespace Corbae.BLL.Interfaces
         /// <param name="user"> пользователь </param>
         /// <returns>Task<IResult</returns>
         Task<LoginResponse> Login(string email, string password);
-        
+
 
         /// <summary>
         /// Создать JWT токен
