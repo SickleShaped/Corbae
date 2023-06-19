@@ -5,6 +5,6 @@
     /// </summary>
     public class NoEnoughMoneyException:Exception
     {
-        public NoEnoughMoneyException(decimal userMoney, decimal orderPrice) : base($"Недостаточно денег для оплаты товара. Стоимость заказа:{orderPrice} рублей. Ваш баланс {userMoney} рублей ") { }
+        public NoEnoughMoneyException(decimal userMoney, decimal orderPrice) : base($"Недостаточно денег для оплаты товара. Стоимость заказа: {orderPrice} рублей. Ваш баланс: {userMoney} рублей ") { }
     }
 }

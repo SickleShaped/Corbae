@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Corbae.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20230615222031_NoStatus")]
-    partial class NoStatus
+    [Migration("20230617202838_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -287,17 +287,14 @@ namespace Corbae.Migrations
                     b.Property<Guid>("ProductID")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserDBUserID")
-                        .HasColumnType("uuid");
-
                     b.HasKey("OrderProductID");
+
+                    b.HasIndex("OrderID");
 
                     b.HasIndex("OrderProductID")
                         .IsUnique();
 
                     b.HasIndex("ProductID");
-
-                    b.HasIndex("UserDBUserID");
 
                     b.ToTable("OrderProducts", (string)null);
                 });
@@ -367,7 +364,7 @@ namespace Corbae.Migrations
                     b.HasOne("Corbae.DAL.Models.DBModels.UserDB", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -418,19 +415,15 @@ namespace Corbae.Migrations
                 {
                     b.HasOne("Corbae.DAL.Models.DBModels.OrderDB", "Order")
                         .WithMany("OrderProducts")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Corbae.DAL.Models.DBModels.ProductDB", "Product")
                         .WithMany("OrderProducts")
                         .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Corbae.DAL.Models.DBModels.UserDB", null)
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("UserDBUserID");
 
                     b.Navigation("Order");
 
@@ -465,8 +458,6 @@ namespace Corbae.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Notifications");
-
-                    b.Navigation("OrderProducts");
 
                     b.Navigation("Orders");
 

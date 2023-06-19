@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Corbae.Migrations
 {
     /// <inheritdoc />
-    public partial class Initail : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -77,7 +77,6 @@ namespace Corbae.Migrations
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DeliveryPlace = table.Column<string>(type: "text", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
                     UserID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -88,7 +87,7 @@ namespace Corbae.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -189,29 +188,23 @@ namespace Corbae.Migrations
                 {
                     OrderProductID = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderID = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductID = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserDBUserID = table.Column<Guid>(type: "uuid", nullable: true)
+                    ProductID = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderProducts", x => x.OrderProductID);
                     table.ForeignKey(
-                        name: "FK_OrderProducts_Orders_ProductID",
-                        column: x => x.ProductID,
+                        name: "FK_OrderProducts_Orders_OrderID",
+                        column: x => x.OrderID,
                         principalTable: "Orders",
                         principalColumn: "OrderID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderProducts_Products_ProductID",
                         column: x => x.ProductID,
                         principalTable: "Products",
                         principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderProducts_Users_UserDBUserID",
-                        column: x => x.UserDBUserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID");
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,6 +281,11 @@ namespace Corbae.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderProducts_OrderID",
+                table: "OrderProducts",
+                column: "OrderID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderProducts_OrderProductID",
                 table: "OrderProducts",
                 column: "OrderProductID",
@@ -297,11 +295,6 @@ namespace Corbae.Migrations
                 name: "IX_OrderProducts_ProductID",
                 table: "OrderProducts",
                 column: "ProductID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderProducts_UserDBUserID",
-                table: "OrderProducts",
-                column: "UserDBUserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_OrderID",
